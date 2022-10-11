@@ -8,7 +8,7 @@ export const PopularList = () => {
 				return (
 					<div className='card d-flex flex-row w-25 border-0 align-items-center gap-3 ps-3 cursor-pointer'>
 						<Image src={item.image}></Image>
-						<h3>{item.name}</h3>
+						<h1 className='fs-4'>{item.name}</h1>
 					</div>
 				);
 			})}

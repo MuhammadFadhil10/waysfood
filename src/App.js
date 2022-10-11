@@ -6,7 +6,7 @@ import { NearRestaurantList } from './components/NearRestaurantList';
 
 function App() {
 	return (
-		<Container fluid className='p-0' style={{ height: '558px' }}>
+		<Container fluid className='p-0' style={{ height: '85vh' }}>
 			<Banner />
 			<Container className='section  mt-5 w-75' style={{ height: '200px' }}>
 				<h1 className='mb-4'>Popular Restaurant</h1>

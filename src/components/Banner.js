@@ -16,15 +16,24 @@ export const Banner = () => {
 					<div
 						style={{
 							backgroundColor: '#433434',
-							width: '150px',
+							width: '110px',
 							height: '3px',
+							marginTop: '12px',
 						}}
 					></div>
-					<p style={{ width: '274px', height: '76px' }}>
-						Lorem Ipsum is simply dummy text of the printing and typesetting
-						industry. Lorem Ipsum has been the industry's standard dummy text
-						ever since the 1500s.
-					</p>
+					<div>
+						<p
+							style={{
+								width: '274px',
+								height: '76px',
+								display: 'inline-block',
+							}}
+						>
+							Lorem Ipsum is simply dummy text of the printing and typesetting
+							industry. Lorem Ipsum has been the industry's standard dummy text
+							ever since the 1500s.
+						</p>
+					</div>
 				</div>
 			</div>
 			<div className='banner-Right'>
