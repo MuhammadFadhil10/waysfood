@@ -38,7 +38,14 @@ export const Register = ({ show, setShow, setShowLogin }) => {
 							className='mt-3'
 						/>
 					</div>
-					<GlobalButton name='Register' bgColor='#433434' />
+					<GlobalButton
+						name='Register'
+						bgColor='#433434'
+						onClick={() => {
+							// write code above
+							setShow(false);
+						}}
+					/>
 				</Form>
 				<p className='text-muted'>
 					Already have an account ? Click{' '}

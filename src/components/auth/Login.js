@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { FloatingLabel, Form, Container, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { LoginContext } from '../../contexts/LoginContext';
@@ -9,7 +9,11 @@ export const Login = ({ show, setShow, setShowRegister }) => {
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
-	const { userData, setUserData } = useContext(LoginContext);
+	const [userData, setUserData] = useState({
+		email: '',
+		password: '',
+	});
+	const { isLogin, setIsLogin } = useContext(LoginContext);
 
 	return (
 		<Modal
@@ -53,7 +57,8 @@ export const Login = ({ show, setShow, setShowRegister }) => {
 									password: userData.password,
 								})
 							);
-							localStorage.setItem('login', true);
+							setIsLogin(true);
+							setShow(false);
 						}}
 					/>
 				</Form>

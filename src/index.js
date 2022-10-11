@@ -11,9 +11,9 @@ import { LoginContext } from './contexts/LoginContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 function AppRouter() {
-	const [userData, setUserData] = useState({});
+	const [isLogin, setIsLogin] = useState(false);
 	return (
-		<LoginContext.Provider value={{ userData, setUserData }}>
+		<LoginContext.Provider value={{ isLogin, setIsLogin }}>
 			<BrowserRouter>
 				<Navigation />
 				<Routes>
