@@ -8,6 +8,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Navigation } from './components/Navigation';
 import { LoginContext } from './contexts/LoginContext';
 
+import DetailProduct from './pages/DetailProduct';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 function AppRouter() {
@@ -18,6 +20,10 @@ function AppRouter() {
 				<Navigation />
 				<Routes>
 					<Route path='/' element={<App />}></Route>
+					<Route
+						path='/product/list/:restId'
+						element={<DetailProduct />}
+					></Route>
 				</Routes>
 			</BrowserRouter>
 		</LoginContext.Provider>

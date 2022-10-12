@@ -19,16 +19,16 @@ export const Navigation = () => {
 		<>
 			<Navbar style={{ backgroundColor: '#FFC700' }}>
 				<Container className='d-flex justify-content-between'>
-					<Navbar.Brand href='#home'>
+					<Link to='/'>
 						<Image src={brandImage}></Image>
-					</Navbar.Brand>
+					</Link>
 					<div className='d-flex gap-3'>
 						{!isLogin ? (
 							<>
 								<GlobalButton
 									name='register'
 									bgColor='#433434'
-									onClick={() => setShowLogin(true)}
+									onClick={() => setShowRegister(true)}
 								/>
 								<GlobalButton
 									name='Login'
@@ -52,8 +52,6 @@ export const Navigation = () => {
 										variant='outline-danger'
 										onClick={() => {
 											setIsLogin(false);
-
-											// setShowLogin(false);
 											localStorage.removeItem('user');
 										}}
 									/>
