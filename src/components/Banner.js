@@ -4,7 +4,7 @@ import pizzaImage from '../assets/image/pizza.png';
 export const Banner = () => {
 	return (
 		<Container
-			className='d-flex justify-content-center align-items-center h-100 gap-4'
+			className='d-flex justify-content-center align-items-center h-100 gap-4 shadow'
 			style={{ backgroundColor: '#FFC700' }}
 			fluid
 		>

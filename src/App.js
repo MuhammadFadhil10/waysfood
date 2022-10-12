@@ -5,10 +5,6 @@ import { PopularList } from './components/PopularList';
 import { NearRestaurantList } from './components/NearRestaurantList';
 
 function App() {
-	const test = localStorage.getItem('login');
-	localStorage.setItem('login', true);
-	console.log(test);
-	console.log(test === 'true');
 	return (
 		<Container fluid className='p-0' style={{ height: '85vh' }}>
 			<Banner />

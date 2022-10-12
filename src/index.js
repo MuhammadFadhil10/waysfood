@@ -8,7 +8,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Navigation } from './components/Navigation';
 import { LoginContext } from './contexts/LoginContext';
 
-import DetailProduct from './pages/DetailProduct';
+import RestaurantMenus from './pages/RestaurantMenus.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -21,8 +21,8 @@ function AppRouter() {
 				<Routes>
 					<Route path='/' element={<App />}></Route>
 					<Route
-						path='/product/list/:restId'
-						element={<DetailProduct />}
+						path='/product/list/:restaurant/:id'
+						element={<RestaurantMenus />}
 					></Route>
 				</Routes>
 			</BrowserRouter>

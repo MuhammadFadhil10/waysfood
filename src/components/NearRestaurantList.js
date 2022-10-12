@@ -13,15 +13,15 @@ export const NearRestaurantList = () => {
 	const [showRegisterModal, setShowRegisterModal] = useState(false);
 	return (
 		<>
-			{NearRestaurant.map((item) => {
+			{NearRestaurant.map((item, index) => {
 				return (
 					<Card
-						className='w-25 d-flex align-items-center border-0'
-						style={{ height: '221px' }}
+						className='w-25 shadow-sm d-flex align-items-center border-0'
+						style={{ height: '221px', cursor: 'pointer' }}
 						onClick={() => {
 							!isLogin
 								? setShowLoginModal(true)
-								: navigate('/product/list/:restId');
+								: navigate(`/product/list/${item.name}/${index}`);
 						}}
 					>
 						<Card.Header className='border-0'>

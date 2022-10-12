@@ -61,6 +61,7 @@ export const Login = ({ show, setShow, setShowRegister }) => {
 									})
 								);
 								setIsLogin(true);
+
 								setShow(false);
 							}}
 						/>
