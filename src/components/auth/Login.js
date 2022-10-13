@@ -3,13 +3,12 @@ import { FloatingLabel, Form, Container, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { LoginContext } from '../../contexts/LoginContext';
 import { GlobalButton } from '../atoms/GlobalButton';
-import { GlobalForm } from '../atoms/GlobalForm';
+import { GlobalInput } from '../atoms/GlobalInput';
 import { Register } from './Register';
 
 export const Login = ({ show, setShow, setShowRegister }) => {
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
-
 	const { isLogin, setIsLogin } = useContext(LoginContext);
 
 	const [userData, setUserData] = useState({
@@ -30,7 +29,7 @@ export const Login = ({ show, setShow, setShowRegister }) => {
 					</h1>
 					<Form className='w-100 d-flex flex-column gap-3'>
 						<div>
-							<GlobalForm
+							<GlobalInput
 								label='Email'
 								type='email'
 								placeholder='email'
@@ -39,7 +38,7 @@ export const Login = ({ show, setShow, setShowRegister }) => {
 									setUserData({ ...userData, email: e.target.value })
 								}
 							/>
-							<GlobalForm
+							<GlobalInput
 								label='Password'
 								type='password'
 								placeholder='password'

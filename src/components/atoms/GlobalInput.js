@@ -1,6 +1,6 @@
 import { FloatingLabel, Form } from 'react-bootstrap';
 
-export const GlobalForm = ({ label, ...rest }) => {
+export const GlobalInput = ({ label, ...rest }) => {
 	return (
 		<Form.Group className='mb-3'>
 			<FloatingLabel label={label}>

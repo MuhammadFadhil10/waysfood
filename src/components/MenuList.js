@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { Card, Container, Image } from 'react-bootstrap';
 import { GlobalButton } from './atoms/GlobalButton';
 import { AllMenu } from '../data/AllMenu';
+import { CartContext } from '../contexts/CartContext';
 
-const RestaurantList = () => {
+const MenuList = () => {
+	const { cartData, setCartData } = useContext(CartContext);
+
 	return (
 		<>
 			<Container className=' d-flex flex-wrap gap-4 mt-4'>
@@ -25,6 +28,10 @@ const RestaurantList = () => {
 										name='Add To Cart'
 										bgColor='#FFC700'
 										textColor='#433434'
+										onClick={() => {
+											setCartData([...cartData, {}]);
+											localStorage.setItem('cart', JSON.stringify(cartData));
+										}}
 									/>
 								</Card.Body>
 							</Card>
@@ -35,4 +42,4 @@ const RestaurantList = () => {
 	);
 };
 
-export default RestaurantList;
+export default MenuList;

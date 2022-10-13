@@ -6,6 +6,8 @@ export const GlobalButton = ({
 	bgColor,
 	onClick,
 	textColor,
+	icon,
+	...rest
 }) => {
 	return (
 		<Button
@@ -13,6 +15,7 @@ export const GlobalButton = ({
 			className={!variant && 'border-0'}
 			style={bgColor && { backgroundColor: bgColor, color: textColor }}
 			onClick={onClick}
+			{...rest}
 		>
 			{name}
 		</Button>

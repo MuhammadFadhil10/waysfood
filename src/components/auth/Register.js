@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FloatingLabel, Form, Container, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { GlobalButton } from '../atoms/GlobalButton';
-import { GlobalForm } from '../atoms/GlobalForm';
+import { GlobalInput } from '../atoms/GlobalInput';
 import { Login } from './Login';
 
 export const Register = ({ show, setShow, setShowLogin }) => {
@@ -22,20 +22,20 @@ export const Register = ({ show, setShow, setShowLogin }) => {
 					</h1>
 					<Form className='w-100 d-flex flex-column gap-3'>
 						<div>
-							<GlobalForm label='Email' type='email' placeholder='email' />
-							<GlobalForm
+							<GlobalInput label='Email' type='email' placeholder='email' />
+							<GlobalInput
 								label='Password'
 								type='password'
 								placeholder='password'
 							/>
-							<GlobalForm label='Full Name' type='text' placeholder='text' />
+							<GlobalInput label='Full Name' type='text' placeholder='text' />
 							<Form.Select aria-label='Default select example'>
 								<option>Gender</option>
 								<option value='1'>One</option>
 								<option value='2'>Two</option>
 								<option value='3'>Three</option>
 							</Form.Select>
-							<GlobalForm
+							<GlobalInput
 								label='Phone'
 								type='number'
 								placeholder='phone'

@@ -9,23 +9,29 @@ import { Navigation } from './components/Navigation';
 import { LoginContext } from './contexts/LoginContext';
 
 import RestaurantMenus from './pages/RestaurantMenus.js';
+import { CartContext } from './contexts/CartContext';
+import CartOrder from './pages/CartOrder';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 function AppRouter() {
 	const [isLogin, setIsLogin] = useState(false);
+	const [cartData, setCartData] = useState([]);
 	return (
 		<LoginContext.Provider value={{ isLogin, setIsLogin }}>
-			<BrowserRouter>
-				<Navigation />
-				<Routes>
-					<Route path='/' element={<App />}></Route>
-					<Route
-						path='/product/list/:restaurant/:id'
-						element={<RestaurantMenus />}
-					></Route>
-				</Routes>
-			</BrowserRouter>
+			<CartContext.Provider value={{ cartData, setCartData }}>
+				<BrowserRouter>
+					<Navigation />
+					<Routes>
+						<Route path='/' element={<App />}></Route>
+						<Route
+							path='/menu/list/:restaurant/:id'
+							element={<RestaurantMenus />}
+						></Route>
+						<Route path='/cart/detail/:id' element={<CartOrder />}></Route>
+					</Routes>
+				</BrowserRouter>
+			</CartContext.Provider>
 		</LoginContext.Provider>
 	);
 }

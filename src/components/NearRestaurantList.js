@@ -21,7 +21,7 @@ export const NearRestaurantList = () => {
 						onClick={() => {
 							!isLogin
 								? setShowLoginModal(true)
-								: navigate(`/product/list/${item.name}/${index}`);
+								: navigate(`/menu/list/${item.name}/${index}`);
 						}}
 					>
 						<Card.Header className='border-0'>
