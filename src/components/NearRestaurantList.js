@@ -37,6 +37,8 @@ export const NearRestaurantList = () => {
 			<Login
 				show={showLoginModal}
 				setShow={setShowLoginModal}
+				isLogin={isLogin}
+				setIsLogin={setIsLogin}
 				setShowRegister={setShowRegisterModal}
 			/>
 			<Register

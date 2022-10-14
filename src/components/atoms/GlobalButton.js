@@ -12,8 +12,13 @@ export const GlobalButton = ({
 	return (
 		<Button
 			variant={variant}
-			className={!variant && 'border-0'}
-			style={bgColor && { backgroundColor: bgColor, color: textColor }}
+			className={'border-0'}
+			style={
+				bgColor && {
+					backgroundColor: bgColor,
+					color: textColor,
+				}
+			}
 			onClick={onClick}
 			{...rest}
 		>

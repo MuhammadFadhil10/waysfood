@@ -14,7 +14,8 @@ export const Navigation = () => {
 	const [showLogin, setShowLogin] = useState(false);
 	const [showRegister, setShowRegister] = useState(false);
 
-	const { isLogin, setIsLogin } = useContext(LoginContext);
+	const [isLogin, setIsLogin] = useState(false);
+	const [userRole, setUserRole] = useState('');
 	const { cartData, setCartData } = useContext(CartContext);
 	const navigate = useNavigate();
 
@@ -41,7 +42,7 @@ export const Navigation = () => {
 									bgColor='#433434'
 								/>
 							</>
-						) : (
+						) : userRole === 'user' ? (
 							<>
 								<div className='d-flex gap-5'>
 									<div
@@ -91,7 +92,43 @@ export const Navigation = () => {
 											</Dropdown.Menu>
 										</Dropdown>
 									</div>
-									{/* <GlobalButton name='Logout' variant='outline-danger' /> */}
+								</div>
+							</>
+						) : (
+							<>
+								<div className='d-flex gap-5'>
+									<div
+										className='d-flex align-items-center gap-3'
+										style={{ cursor: 'pointer' }}
+									>
+										<Dropdown>
+											<Dropdown.Toggle variant='' id='dropdown-basic'>
+												<Image
+													src={profileImage}
+													width='45px'
+													height='45px'
+												></Image>
+											</Dropdown.Toggle>
+
+											<Dropdown.Menu>
+												<Link
+													to='/profile'
+													className='text-dark text-decoration-none'
+												>
+													Profile
+												</Link>
+												<p>Product</p>
+												<p
+													className='text-danger'
+													onClick={() => {
+														setIsLogin(false);
+													}}
+												>
+													Logout
+												</p>
+											</Dropdown.Menu>
+										</Dropdown>
+									</div>
 								</div>
 							</>
 						)}
@@ -101,7 +138,10 @@ export const Navigation = () => {
 			<Login
 				show={showLogin}
 				setShow={setShowLogin}
+				isLogin={isLogin}
+				setIsLogin={setIsLogin}
 				setShowRegister={setShowRegister}
+				setUserRole={setUserRole}
 			/>
 			<Register
 				show={showRegister}

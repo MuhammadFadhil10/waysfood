@@ -1,12 +1,13 @@
 import React from 'react';
 import { Card, Col, Container, Image, Row, Alert } from 'react-bootstrap';
 
-import profilePhoto from '../assets/image/zayn.png';
-import logo from '../assets/icon/brand.svg';
-import { GlobalButton } from '../components/atoms/GlobalButton';
+import profilePhoto from '../../assets/image/zayn.png';
+import logo from '../../assets/icon/brand.svg';
+import geprekImage from '../../assets/image/geprek-bensu.png';
+import { GlobalButton } from '../../components/atoms/GlobalButton';
 import { useNavigate } from 'react-router-dom';
 
-const Profile = () => {
+const ProfilePartner = () => {
 	const navigate = useNavigate();
 	return (
 		<Container className='mt-5'>
@@ -15,7 +16,7 @@ const Profile = () => {
 					<h1 className='fs-3 mb-5'>My Profile</h1>
 					<Row className='d-flex justify-content-star'>
 						<Col className='col-5 col-lg-4'>
-							<Image src={profilePhoto} />
+							<Image src={geprekImage} height='100%' width='180px' />
 							<GlobalButton
 								name='Edit Profile'
 								bgColor='#433434'
@@ -25,12 +26,12 @@ const Profile = () => {
 						</Col>
 						<Col>
 							<div>
-								<h1 className='fs-5'>Full Name</h1>
-								<p>Andi</p>
+								<h1 className='fs-5'>Name Partner</h1>
+								<p>Geprek Bensu</p>
 							</div>
 							<div>
 								<h1 className='fs-5'>Email</h1>
-								<p>andigans@gmail.com</p>
+								<p>bensu@gmail.com</p>
 							</div>
 							<div>
 								<h1 className='fs-5'>Phone</h1>
@@ -149,4 +150,4 @@ const Profile = () => {
 	);
 };
 
-export default Profile;
+export default ProfilePartner;

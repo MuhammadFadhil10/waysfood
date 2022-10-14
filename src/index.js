@@ -11,6 +11,12 @@ import { LoginContext } from './contexts/LoginContext';
 import RestaurantMenus from './pages/RestaurantMenus.js';
 import { CartContext } from './contexts/CartContext';
 import CartOrder from './pages/CartOrder';
+import Profile from './pages/Profile';
+import EditProfile from './pages/EditProfile';
+import ProfilePartner from './pages/admin/ProfilePartner';
+import EditProfilePartner from './pages/admin/EditProfilePartner';
+import AddProduct from './pages/admin/AddProduct';
+import DashboardAdmin from './pages/admin/DashboardAdmin';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -29,6 +35,19 @@ function AppRouter() {
 							element={<RestaurantMenus />}
 						></Route>
 						<Route path='/cart/detail/:id' element={<CartOrder />}></Route>
+						<Route path='/profile' element={<Profile />}></Route>
+						<Route path='/profile/edit' element={<EditProfile />}></Route>
+						{/* partner / admin */}
+						<Route path='/partner/profile' element={<ProfilePartner />}></Route>
+						<Route
+							path='/partner/profile/edit'
+							element={<EditProfilePartner />}
+						></Route>
+						<Route path='/partner/add-product' element={<AddProduct />}></Route>
+						<Route
+							path='/partner/dashboard'
+							element={<DashboardAdmin />}
+						></Route>
 					</Routes>
 				</BrowserRouter>
 			</CartContext.Provider>

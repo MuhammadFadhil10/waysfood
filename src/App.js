@@ -9,7 +9,7 @@ function App() {
 	const cart = localStorage.getItem('cart');
 	console.log(JSON.parse(cart));
 	return (
-		<Container fluid className='p-0' style={{ height: '85vh' }}>
+		<Container fluid className='p-0 vh-100'>
 			<Banner />
 			<Container className='section  mt-5 w-75' style={{ height: '200px' }}>
 				<h1 className='mb-4 fs-2'>Popular Restaurant</h1>
