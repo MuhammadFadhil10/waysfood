@@ -16,6 +16,7 @@ export const NearRestaurantList = () => {
 			{NearRestaurant.map((item, index) => {
 				return (
 					<Card
+						key={index}
 						className='w-25 shadow-sm d-flex align-items-center border-0'
 						style={{ height: '221px', cursor: 'pointer' }}
 						onClick={() => {

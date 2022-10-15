@@ -24,34 +24,39 @@ export const Login = ({
 		role: 'user',
 	});
 
+	const [loginMessage, setLoginMessage] = useState('');
+
 	// function to return if password match, return a error or success message
-	function loginSuccess(email, password) {
-		let statusMessage;
+
+	const loginSuccess = (email, password) => {
+		// let statusMessage;
 		const emailCheck = userData.filter((field) => field.email === email);
 		if (emailCheck.length === 0) {
-			statusMessage = 'lu belum terdaftar tot';
+			setLoginMessage("You're not registered ");
+
 			return {
 				status: false,
-				message: statusMessage,
+				message: loginMessage,
 			};
 		}
 		const filterResult = userData.filter(
 			(field) => field.password === password
 		);
 		if (filterResult.length === 0) {
-			statusMessage = 'password salah tot';
+			setLoginMessage('Password Wrong');
 			return {
 				status: false,
-				message: statusMessage,
+				message: loginMessage,
 			};
 		}
-		statusMessage = 'Login success, silahkan logout. tapi boong';
+		setLoginMessage('Success Login!');
+
 		return {
 			status: true,
-			message: statusMessage,
+			message: loginMessage,
 			user: filterResult[0],
 		};
-	}
+	};
 
 	return (
 		<>
@@ -61,6 +66,13 @@ export const Login = ({
 				className=' d-flex flex-column justify-content-center align-items-center'
 			>
 				<Container className='d-flex flex-column gap-4 justify-content-center align-items-center p-5'>
+					{
+						<p
+							className={!loginSuccess.status ? 'text-danger' : 'text-success'}
+						>
+							{loginMessage}
+						</p>
+					}
 					<h1 style={{ color: '#FFC700' }} className='align-self-start'>
 						Login
 					</h1>
@@ -89,26 +101,25 @@ export const Login = ({
 							name='Login'
 							bgColor='#433434'
 							onClick={() => {
+								const loginCheck = loginSuccess(
+									userLogin.email,
+									userLogin.password
+								);
+								console.log(loginCheck);
 								localStorage.setItem(
 									'user',
 									JSON.stringify({
 										email: userLogin.email,
 										password: userLogin.password,
+										role: loginCheck.user.role,
 									})
 								);
-								let hasLogin = loginSuccess(
-									userLogin.email,
-									userLogin.password
-								);
-								if (hasLogin.status) {
-									console.log('success login');
-								} else {
-									console.log('failed login');
-								}
-								setUserRole(hasLogin.user.role);
-								setIsLogin(true);
-
-								setShow(false);
+								loginCheck.status && setIsLogin(loginCheck.status);
+								setUserRole(loginCheck.user.role);
+								loginCheck.status &&
+									setTimeout(() => {
+										setShow(false);
+									}, 1500);
 							}}
 						/>
 					</Form>
