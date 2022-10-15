@@ -50,10 +50,6 @@ export const Login = ({
 			};
 		}
 		setLoginMessage('Success Login!');
-		setLoginMessage('Success Login!');
-		setLoginMessage('Success Login!');
-		setLoginMessage('Success Login!');
-		setLoginMessage('Success Login!');
 
 		return {
 			status: true,
@@ -70,13 +66,11 @@ export const Login = ({
 				className=' d-flex flex-column justify-content-center align-items-center'
 			>
 				<Container className='d-flex flex-column gap-4 justify-content-center align-items-center p-5'>
-					{
-						<p
-							className={!loginSuccess.status ? 'text-danger' : 'text-success'}
-						>
+					{loginMessage != '' && (
+						<p className={!isLogin ? 'text-danger' : 'text-success'}>
 							{loginMessage}
 						</p>
-					}
+					)}
 					<h1 style={{ color: '#FFC700' }} className='align-self-start'>
 						Login
 					</h1>
@@ -123,6 +117,7 @@ export const Login = ({
 								loginCheck.status &&
 									setTimeout(() => {
 										setShow(false);
+										setLoginMessage('');
 									}, 1500);
 							}}
 						/>
