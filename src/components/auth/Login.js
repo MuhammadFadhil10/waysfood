@@ -51,6 +51,9 @@ export const Login = ({
 		}
 		setLoginMessage('Success Login!');
 		setLoginMessage('Success Login!');
+		setLoginMessage('Success Login!');
+		setLoginMessage('Success Login!');
+		setLoginMessage('Success Login!');
 
 		return {
 			status: true,
