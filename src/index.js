@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Navigation } from './components/Navigation';
 import { LoginContext } from './contexts/LoginContext';
+import { Outlet, Navigate } from 'react-router-dom';
 
 import RestaurantMenus from './pages/RestaurantMenus.js';
 import { CartContext } from './contexts/CartContext';
@@ -20,8 +21,15 @@ import DashboardAdmin from './pages/admin/DashboardAdmin';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
+const PrivateRoute = ({ element: Component, ...rest }) => {
+	const { isLogin, setIsLogin } = useContext(LoginContext);
+	// const {is}
+
+	return isLogin ? <Outlet /> : <Navigate to='/' />;
+};
+
 function AppRouter() {
-	const [isLogin, setIsLogin] = useState(false);
+	const [ isLogin, setIsLogin ] = useState(false);
 	const [cartData, setCartData] = useState([]);
 	return (
 		<LoginContext.Provider value={{ isLogin, setIsLogin }}>
@@ -29,36 +37,42 @@ function AppRouter() {
 				<BrowserRouter>
 					<Navigation />
 					<Routes>
-						<Route exec path='/' element={<App />}></Route>
+						<Route exact path='/' element={<App />}></Route>
 						<Route
-							exec
+							exact
 							path='/menu/list/:restaurant/:id'
 							element={<RestaurantMenus />}
 						></Route>
-						<Route exec path='/cart/detail/:id' element={<CartOrder />}></Route>
-						<Route exec path='/profile' element={<Profile />}></Route>
-						<Route exec path='/profile/edit' element={<EditProfile />}></Route>
+						<Route exact path='/' element={<PrivateRoute />} >
+						<Route
+							exact
+							path='/cart/detail/:id'
+							element={<CartOrder />}
+						></Route>
+						<Route exact path='/profile' element={<Profile />}></Route>
+						<Route exact path='/profile/edit' element={<EditProfile />}></Route>
 						{/* partner / admin */}
-						<Route
-							exec
-							path='/partner/profile'
-							element={<ProfilePartner />}
-						></Route>
-						<Route
-							exec
-							path='/partner/profile/edit'
-							element={<EditProfilePartner />}
-						></Route>
-						<Route
-							exec
-							path='/partner/add-product'
-							element={<AddProduct />}
-						></Route>
-						<Route
-							exec
-							path='/partner/dashboard'
-							element={<DashboardAdmin />}
-						></Route>
+							<Route
+								exact
+								path='/partner/profile'
+								element={<ProfilePartner />}
+							></Route>
+							<Route
+								exact
+								path='/partner/profile/edit'
+								element={<EditProfilePartner />}
+							></Route>
+							<Route
+								exact
+								path='/partner/add-product'
+								element={<AddProduct />}
+							></Route>
+							<Route
+								exact
+								path='/partner/dashboard'
+								element={<DashboardAdmin />}
+							></Route>
+						</Route>
 					</Routes>
 				</BrowserRouter>
 			</CartContext.Provider>
