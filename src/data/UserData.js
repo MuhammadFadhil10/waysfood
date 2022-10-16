@@ -1,12 +1,12 @@
 export const userData = [
 	{
-		email: 'sayangkamu@gmail.com',
-		password: 'dumbwaysaddict',
+		email: 'u@gmail.com',
+		password: 'user',
 		role: 'user',
 	},
 	{
-		email: 'iqbalcowboyjunior@gmail.com',
-		password: 'windaatauyangkemarinya',
+		email: 'a@gmail.com',
+		password: 'admin',
 		role: 'admin',
 	},
 ];

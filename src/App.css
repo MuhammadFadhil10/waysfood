@@ -13,7 +13,7 @@ body {
 
 @media (prefers-reduced-motion: no-preference) {
 	.App-logo {
-		animation: App-logo-spin infinite 5s linear;
+		animation: App-logo-spin 1 5s linear;
 	}
 }
 
@@ -34,34 +34,10 @@ body {
 
 @keyframes App-logo-spin {
 	0% {
-		transform: rotate(0deg);
-	}
-	10% {
-		margin-right: 100px;
-	}
-	20% {
-		margin-left: 300px;
-	}
-	30% {
-		margin-top: 1000px;
-	}
-	50% {
-		margin-bottom: 100px;
-	}
-	60% {
-		margin-left: 400px;
-	}
-	70% {
-		margin-bottom: 700px;
-	}
-	80% {
-		margin-right: 670px;
-	}
-	90% {
-		margin-top: 400px;
+		margin-left: 1000px;
 	}
 	100% {
-		margin-left: 1000px;
+		margin-left: 0;
 	}
 }
 /* @keyframes App-logo-spin {

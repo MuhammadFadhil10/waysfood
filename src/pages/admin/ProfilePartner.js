@@ -21,7 +21,7 @@ const ProfilePartner = () => {
 								name='Edit Profile'
 								bgColor='#433434'
 								className='w-100 mt-3 border-0'
-								onClick={() => navigate('/profile/edit')}
+								onClick={() => navigate('/partner/profile/edit')}
 							/>
 						</Col>
 						<Col>
@@ -45,98 +45,23 @@ const ProfilePartner = () => {
 					<div style={{ maxHeight: '300px', overflow: 'scroll' }}>
 						<Card
 							className='shadow d-flex flex-row justify-content-between p-2 mb-3'
-							style={{ height: '100px', borderBox: 'box-sizing' }}
+							style={{ borderBox: 'box-sizing' }}
 						>
-							<div className=' d-flex flex-column justify-content-center'>
-								<div>
-									<h1 className='fs-5'>Geprek Bensu</h1>
-									<p className='fs-6'>
+							<div className=' d-flex flex-column justify-content-between '>
+								<div style={{ lineHeight: '10px' }}>
+									<p>Geprek Bensu</p>
+									<p>
 										<strong>Saturday,</strong> 12 March 2021
 									</p>
-									<h2 className='fs-5 text-danger'>Total: Rp 45.000</h2>
 								</div>
+								<p className='text-danger'>Total: Rp 45.000</p>
 							</div>
 							<div className='d-flex flex-column align-items-center gap-3 w-25'>
 								<Col>
 									<Image src={logo} />
 								</Col>
 								<Col className='w-100 d-flex align-items-center justify-content-center'>
-									{/* <h1 className='fs-6 text-success'>Finished</h1> */}
-									<Alert variant='success' className='p-1 w-100 text-center'>
-										Finished
-									</Alert>
-								</Col>
-							</div>
-						</Card>
-						<Card
-							className='shadow d-flex flex-row justify-content-between p-2 mb-3'
-							style={{ height: '100px', borderBox: 'box-sizing' }}
-						>
-							<div className=' d-flex flex-column justify-content-center'>
-								<div>
-									<h1 className='fs-5'>Geprek Bensu</h1>
-									<p className='fs-6'>
-										<strong>Saturday,</strong> 12 March 2021
-									</p>
-									<h2 className='fs-5 text-danger'>Total: Rp 45.000</h2>
-								</div>
-							</div>
-							<div className='d-flex flex-column align-items-center gap-3 w-25'>
-								<Col>
-									<Image src={logo} />
-								</Col>
-								<Col className='w-100 d-flex align-items-center justify-content-center'>
-									{/* <h1 className='fs-6 text-success'>Finished</h1> */}
-									<Alert variant='success' className='p-1 w-100 text-center'>
-										Finished
-									</Alert>
-								</Col>
-							</div>
-						</Card>
-						<Card
-							className='shadow d-flex flex-row justify-content-between p-2 mb-3'
-							style={{ height: '100px', borderBox: 'box-sizing' }}
-						>
-							<div className=' d-flex flex-column justify-content-center'>
-								<div>
-									<h1 className='fs-5'>Geprek Bensu</h1>
-									<p className='fs-6'>
-										<strong>Saturday,</strong> 12 March 2021
-									</p>
-									<h2 className='fs-5 text-danger'>Total: Rp 45.000</h2>
-								</div>
-							</div>
-							<div className='d-flex flex-column align-items-center gap-3 w-25'>
-								<Col>
-									<Image src={logo} />
-								</Col>
-								<Col className='w-100 d-flex align-items-center justify-content-center'>
-									{/* <h1 className='fs-6 text-success'>Finished</h1> */}
-									<Alert variant='success' className='p-1 w-100 text-center'>
-										Finished
-									</Alert>
-								</Col>
-							</div>
-						</Card>
-						<Card
-							className='shadow d-flex flex-row justify-content-between p-2 mb-3'
-							style={{ height: '100px', borderBox: 'box-sizing' }}
-						>
-							<div className=' d-flex flex-column justify-content-center'>
-								<div>
-									<h1 className='fs-5'>Geprek Bensu</h1>
-									<p className='fs-6'>
-										<strong>Saturday,</strong> 12 March 2021
-									</p>
-									<h2 className='fs-5 text-danger'>Total: Rp 45.000</h2>
-								</div>
-							</div>
-							<div className='d-flex flex-column align-items-center gap-3 w-25'>
-								<Col>
-									<Image src={logo} />
-								</Col>
-								<Col className='w-100 d-flex align-items-center justify-content-center'>
-									{/* <h1 className='fs-6 text-success'>Finished</h1> */}
+									{/* <p className='fs-6 text-success'>Finished</p> */}
 									<Alert variant='success' className='p-1 w-100 text-center'>
 										Finished
 									</Alert>

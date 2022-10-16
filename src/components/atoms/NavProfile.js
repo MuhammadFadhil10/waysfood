@@ -6,6 +6,9 @@ import { CartContext } from '../../contexts/CartContext';
 
 import cartImage from '../../assets/icon/cart.svg';
 import profileImage from '../../assets/image/profile.png';
+import addProduct from '../../assets/icon/add-product-dropdown.svg';
+import logout from '../../assets/icon/logout-dropdown.svg';
+import profile from '../../assets/icon/profile-dropdown.svg';
 
 const NavProfile = ({ role, setIsLogin }) => {
 	const navigate = useNavigate();
@@ -45,25 +48,41 @@ const NavProfile = ({ role, setIsLogin }) => {
 
 						<Dropdown.Menu>
 							<Dropdown.Item
-								className='d-flex align-items-center border-bottom'
+								className=' align-items-center border-bottom'
 								style={{ height: '50px' }}
 							>
-								<Link to='/profile' className='text-dark text-decoration-none'>
+								<Link
+									to={role === 'user' ? '/profile' : '/partner/profile'}
+									className='text-dark text-decoration-none d-flex gap-2'
+								>
+									<Image src={profile} width='25px' />
 									Profile
 								</Link>
 							</Dropdown.Item>
-							<Dropdown.Item
-								className='d-flex align-items-center'
-								style={{ height: '50px' }}
-							>
-								<p
-									className='text-danger'
-									onClick={() => {
-										setIsLogin(false);
-									}}
+							{role === 'admin' && (
+								<Dropdown.Item
+									className='d-flex gap-2 align-items-center border-bottom'
+									style={{ height: '50px' }}
 								>
-									Logout
-								</p>
+									<Link
+										to='/partner/add-product'
+										className='text-dark text-decoration-none d-flex gap-2'
+									>
+										<Image src={addProduct} width='25px' />
+										Add Product
+									</Link>
+								</Dropdown.Item>
+							)}
+							<Dropdown.Item
+								className='d-flex gap-2 align-items-center'
+								style={{ height: '50px' }}
+								onClick={() => {
+									setIsLogin(false);
+									navigate('/');
+								}}
+							>
+								<Image src={logout} width='25px' />
+								Logout
 							</Dropdown.Item>
 						</Dropdown.Menu>
 					</Dropdown>

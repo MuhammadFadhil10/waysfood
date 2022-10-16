@@ -29,22 +29,33 @@ function AppRouter() {
 				<BrowserRouter>
 					<Navigation />
 					<Routes>
-						<Route path='/' element={<App />}></Route>
+						<Route exec path='/' element={<App />}></Route>
 						<Route
+							exec
 							path='/menu/list/:restaurant/:id'
 							element={<RestaurantMenus />}
 						></Route>
-						<Route path='/cart/detail/:id' element={<CartOrder />}></Route>
-						<Route path='/profile' element={<Profile />}></Route>
-						<Route path='/profile/edit' element={<EditProfile />}></Route>
+						<Route exec path='/cart/detail/:id' element={<CartOrder />}></Route>
+						<Route exec path='/profile' element={<Profile />}></Route>
+						<Route exec path='/profile/edit' element={<EditProfile />}></Route>
 						{/* partner / admin */}
-						<Route path='/partner/profile' element={<ProfilePartner />}></Route>
 						<Route
+							exec
+							path='/partner/profile'
+							element={<ProfilePartner />}
+						></Route>
+						<Route
+							exec
 							path='/partner/profile/edit'
 							element={<EditProfilePartner />}
 						></Route>
-						<Route path='/partner/add-product' element={<AddProduct />}></Route>
 						<Route
+							exec
+							path='/partner/add-product'
+							element={<AddProduct />}
+						></Route>
+						<Route
+							exec
 							path='/partner/dashboard'
 							element={<DashboardAdmin />}
 						></Route>

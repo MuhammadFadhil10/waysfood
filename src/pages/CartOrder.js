@@ -169,7 +169,7 @@ const CartOrder = () => {
 								</Row>
 							</Col>
 						</Row>
-						<hr />
+						<hr style={{ marginTop: '30px' }} />
 					</Col>
 
 					<Col>

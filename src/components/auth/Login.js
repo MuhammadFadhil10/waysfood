@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { FloatingLabel, Form, Container, Modal } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { LoginContext } from '../../contexts/LoginContext';
 import { userData } from '../../data/UserData';
 import { GlobalButton } from '../atoms/GlobalButton';
@@ -15,6 +15,7 @@ export const Login = ({
 	setIsLogin,
 	setUserRole,
 }) => {
+	const navigate = useNavigate()
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
@@ -95,6 +96,7 @@ export const Login = ({
 								}
 							/>
 						</div>
+						
 						<GlobalButton
 							name='Login'
 							bgColor='#433434'
@@ -103,7 +105,6 @@ export const Login = ({
 									userLogin.email,
 									userLogin.password
 								);
-								console.log(loginCheck);
 								localStorage.setItem(
 									'user',
 									JSON.stringify({
@@ -118,7 +119,9 @@ export const Login = ({
 									setTimeout(() => {
 										setShow(false);
 										setLoginMessage('');
+										loginCheck.user.role === 'admin' && navigate('/partner/dashboard');
 									}, 1500);
+								
 							}}
 						/>
 					</Form>
