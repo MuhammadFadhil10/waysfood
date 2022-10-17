@@ -1,16 +1,22 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Card, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { LoginContext } from '../contexts/LoginContext';
 import { NearRestaurant } from '../data/NearRestaurant';
 import { Login } from './auth/Login';
 import { Register } from './auth/Register';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 export const NearRestaurantList = () => {
 	const navigate = useNavigate();
 	const { isLogin, setIsLogin } = useContext(LoginContext);
 	const [showLoginModal, setShowLoginModal] = useState(false);
 	const [showRegisterModal, setShowRegisterModal] = useState(false);
+
+	useEffect(() => {
+		AOS.init();
+	}, []);
 	return (
 		<>
 			{NearRestaurant.map((item, index) => {
@@ -24,6 +30,8 @@ export const NearRestaurantList = () => {
 								? setShowLoginModal(true)
 								: navigate(`/menu/list/${item.name}/${index}`);
 						}}
+						data-aos='fade-up'
+						data-aos-duration='1000'
 					>
 						<Card.Header className='border-0'>
 							<Image src={item.image} className='bg-primary '></Image>

@@ -21,14 +21,14 @@ import DashboardAdmin from './pages/admin/DashboardAdmin';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const PrivateRoute = ({ element: Component, ...rest }) => {
+const PrivateRoute = () => {
 	const { isLogin, setIsLogin } = useContext(LoginContext);
 
 	return isLogin ? <Outlet /> : <Navigate to='/' />;
 };
 
 function AppRouter() {
-	const [ isLogin, setIsLogin ] = useState(false);
+	const [isLogin, setIsLogin] = useState(false);
 	const [cartData, setCartData] = useState([]);
 	return (
 		<LoginContext.Provider value={{ isLogin, setIsLogin }}>
@@ -42,15 +42,19 @@ function AppRouter() {
 							path='/menu/list/:restaurant/:id'
 							element={<RestaurantMenus />}
 						></Route>
-						<Route exact path='/' element={<PrivateRoute />} >
-						<Route
-							exact
-							path='/cart/detail/:id'
-							element={<CartOrder />}
-						></Route>
-						<Route exact path='/profile' element={<Profile />}></Route>
-						<Route exact path='/profile/edit' element={<EditProfile />}></Route>
-						{/* partner / admin */}
+						<Route exact path='/' element={<PrivateRoute />}>
+							<Route
+								exact
+								path='/cart/detail/:id'
+								element={<CartOrder />}
+							></Route>
+							<Route exact path='/profile' element={<Profile />}></Route>
+							<Route
+								exact
+								path='/profile/edit'
+								element={<EditProfile />}
+							></Route>
+							{/* partner / admin */}
 							<Route
 								exact
 								path='/partner/profile'

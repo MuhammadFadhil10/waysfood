@@ -1,14 +1,25 @@
 import { Container, Image } from 'react-bootstrap';
 import pizzaImage from '../assets/image/pizza.png';
 
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { useEffect } from 'react';
+
 export const Banner = () => {
+	useEffect(() => {
+		AOS.init();
+	}, []);
 	return (
 		<Container
 			className='d-flex flex-lg-row justify-content-center align-items-center h-100 shadow gap-3'
 			style={{ backgroundColor: '#FFC700' }}
 			fluid
 		>
-			<div className='banner-left d-flex flex-column gap-4'>
+			<div
+				className='banner-left d-flex flex-column gap-4'
+				data-aos='fade-right'
+				data-aos-duration='1000'
+			>
 				<h1 style={{ color: '#433434' }}>
 					Are you hungry? <br /> Express Home Delivery
 				</h1>
@@ -36,7 +47,9 @@ export const Banner = () => {
 					</div>
 				</div>
 			</div>
+			<div className='mb-5' data-aos='fade-left' data-aos-duration='1000'>
 				<Image src={pizzaImage}></Image>
+			</div>
 		</Container>
 	);
 };

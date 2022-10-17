@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { FloatingLabel, Form, Container, Modal } from 'react-bootstrap';
+import { FloatingLabel, Form, Container, Modal, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { LoginContext } from '../../contexts/LoginContext';
 import { userData } from '../../data/UserData';
@@ -15,7 +15,7 @@ export const Login = ({
 	setIsLogin,
 	setUserRole,
 }) => {
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
@@ -30,21 +30,12 @@ export const Login = ({
 	// function to return if password match, return a error or success message
 
 	const loginSuccess = (email, password) => {
-		// let statusMessage;
-		const emailCheck = userData.filter((field) => field.email === email);
-		if (emailCheck.length === 0) {
-			setLoginMessage("You're not registered ");
-
-			return {
-				status: false,
-				message: loginMessage,
-			};
-		}
-		const filterResult = userData.filter(
-			(field) => field.password === password
+		const loginResult = userData.filter(
+			(field) => field.email === email && field.password === password
 		);
-		if (filterResult.length === 0) {
-			setLoginMessage('Password Wrong');
+
+		if (loginResult.length === 0) {
+			setLoginMessage('Email or Password Wrong!');
 			return {
 				status: false,
 				message: loginMessage,
@@ -55,7 +46,7 @@ export const Login = ({
 		return {
 			status: true,
 			message: loginMessage,
-			user: filterResult[0],
+			user: loginResult[0],
 		};
 	};
 
@@ -68,9 +59,9 @@ export const Login = ({
 			>
 				<Container className='d-flex flex-column gap-4 justify-content-center align-items-center p-5'>
 					{loginMessage != '' && (
-						<p className={!isLogin ? 'text-danger' : 'text-success'}>
+						<Alert variant={!isLogin ? 'danger' : 'success'}>
 							{loginMessage}
-						</p>
+						</Alert>
 					)}
 					<h1 style={{ color: '#FFC700' }} className='align-self-start'>
 						Login
@@ -96,7 +87,7 @@ export const Login = ({
 								}
 							/>
 						</div>
-						
+
 						<GlobalButton
 							name='Login'
 							bgColor='#433434'
@@ -119,9 +110,9 @@ export const Login = ({
 									setTimeout(() => {
 										setShow(false);
 										setLoginMessage('');
-										loginCheck.user.role === 'admin' && navigate('/partner/dashboard');
+										loginCheck.user.role === 'admin' &&
+											navigate('/partner/dashboard');
 									}, 1500);
-								
 							}}
 						/>
 					</Form>

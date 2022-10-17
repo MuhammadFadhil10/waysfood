@@ -19,7 +19,7 @@ import {
 	IoTrashOutline,
 } from 'react-icons/io5';
 
-import geprekImage from '../assets/image/geprek-bensu.png';
+import emptyCartImage from '../assets/image/cart-empty.png';
 import { CartContext } from '../contexts/CartContext';
 // import { cartData } from '../data/CartData';
 
@@ -28,8 +28,7 @@ const CartOrder = () => {
 	const { cartData, setCartData } = useContext(CartContext);
 
 	const [totalPrice, setTotalPrice] = useState(0);
-	const [totalQty, setTotalQty] = useState(0)
-
+	const [totalQty, setTotalQty] = useState(0);
 
 	return (
 		<Container className=' d-flex flex-column gap-3 pt-5'>
@@ -54,10 +53,13 @@ const CartOrder = () => {
 
 			<h1 className='fs-3'>Review Your Order</h1>
 			<hr />
-			<Row  >
-				<Col >
+			<Row>
+				<Col>
 					{cartData.length === 0 ? (
-						<h1>Oooops!!, You have no cart yet! </h1>
+						<Col className='d-flex flex-column justify-content-center align-items-center'>
+							<Image src={emptyCartImage} width='200px' />
+							<h1>Oooops!!, You have no cart!! :( </h1>
+						</Col>
 					) : (
 						cartData.map((item, index) => (
 							<Col>
@@ -75,13 +77,23 @@ const CartOrder = () => {
 												/>
 											</Col>
 											<Col className='col-9 ps-5 ps-lg-0'>
-												<h6 className='my-3 ff-abhaya fw-bold'>{item.menuName}</h6>
+												<h6 className='my-3 ff-abhaya fw-bold'>
+													{item.menuName}
+												</h6>
 												<h6 className='my-3 ff-avenir'>
-													<GlobalButton name='-' bgColor='#433434' className='m-2' />
+													<GlobalButton
+														name='-'
+														bgColor='#433434'
+														className='m-2'
+													/>
 													<span className='bg-light border-0 rounded text-dark'>
 														{item.qty}
 													</span>
-													<GlobalButton name='+' bgColor='#433434' className='m-2' />
+													<GlobalButton
+														name='+'
+														bgColor='#433434'
+														className='m-2'
+													/>
 												</h6>
 											</Col>
 										</Row>
@@ -97,46 +109,46 @@ const CartOrder = () => {
 							</Col>
 						))
 					)}
-					</Col>
+				</Col>
 
-					{cartData.length > 0 && (
-						<Col className='col-12 col-lg-4'>
-							<Col>
-								<Row className='d-flex align-items-center mt-2'>
-									<Col>
-										<Row className='d-flex align-items-center text-start'>
-											<Col className='ff-abhaya'>
-												<h6>Subtotal</h6>
-												<h6>Qty</h6>
-												<h6>Ongkir</h6>
-											</Col>
-											<Col className='ff-abhaya text-end'>
-												<h6>Rp. 60.000</h6>
-												<h6>2</h6>
-												<h6>Rp. 60.000</h6>
-											</Col>
-										</Row>
-									</Col>
-								</Row>
-								<hr style={{ marginTop: '30px' }} />
-							</Col>
-
-							<Col>
-								<Row className='d-flex align-items-center'>
-									<Col>
-										<Row className='d-flex align-items-center text-start text-danger'>
-											<Col className='ff-abhaya'>
-												<h6>Total</h6>
-											</Col>
-											<Col className='col-4 text-end ff-avenir'>
-												<h6>Rp. 70.000</h6>
-											</Col>
-										</Row>
-									</Col>
-								</Row>
-							</Col>
+				{cartData.length > 0 && (
+					<Col className='col-12 col-lg-4'>
+						<Col>
+							<Row className='d-flex align-items-center mt-2'>
+								<Col>
+									<Row className='d-flex align-items-center text-start'>
+										<Col className='ff-abhaya'>
+											<h6>Subtotal</h6>
+											<h6>Qty</h6>
+											<h6>Ongkir</h6>
+										</Col>
+										<Col className='ff-abhaya text-end'>
+											<h6>Rp. 60.000</h6>
+											<h6>2</h6>
+											<h6>Rp. 60.000</h6>
+										</Col>
+									</Row>
+								</Col>
+							</Row>
+							<hr style={{ marginTop: '30px' }} />
 						</Col>
-					)}
+
+						<Col>
+							<Row className='d-flex align-items-center'>
+								<Col>
+									<Row className='d-flex align-items-center text-start text-danger'>
+										<Col className='ff-abhaya'>
+											<h6>Total</h6>
+										</Col>
+										<Col className='col-4 text-end ff-avenir'>
+											<h6>Rp. 70.000</h6>
+										</Col>
+									</Row>
+								</Col>
+							</Row>
+						</Col>
+					</Col>
+				)}
 				{/* </Col> */}
 			</Row>
 			{/* modal */}
