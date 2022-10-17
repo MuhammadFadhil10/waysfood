@@ -4,10 +4,12 @@ import { GlobalButton } from '../components/atoms/GlobalButton';
 import { useNavigate } from 'react-router-dom';
 
 import profilePhoto from '../assets/image/zayn.png';
+
 import logo from '../assets/icon/brand.svg';
 
 const Profile = () => {
 	const navigate = useNavigate();
+	
 	return (
 		<Container className='mt-5'>
 			<Row>
@@ -70,6 +72,7 @@ const Profile = () => {
 					</div>
 				</Col>
 			</Row>
+			
 		</Container>
 	);
 };

@@ -1,5 +1,6 @@
-import { Container, Form, FloatingLabel, Button } from 'react-bootstrap';
+import { Container, Form, FloatingLabel, Button, Modal, Image } from 'react-bootstrap';
 import { GlobalButton } from '../components/atoms/GlobalButton';
+import map from '../assets/image/map.png';
 import {
 	IoLocationSharp,
 	IoMapOutline,
@@ -7,8 +8,10 @@ import {
 	IoTrashOutline,
 	IoAttach,
 } from 'react-icons/io5';
+import { useState } from 'react';
 
 const EditProfile = () => {
+	const [modalShow, setModalShow] = useState(false);
 	return (
 		<Container className='w-75' style={{ marginTop: '90px' }}>
 			<Form>
@@ -57,6 +60,7 @@ const EditProfile = () => {
 					<Button
 						className='w-25 border-0'
 						style={{ height: '58px', backgroundColor: '#433434' }}
+						onClick={() => setModalShow(true)}
 					>
 						<span>Select On Map </span>
 						<IoMapOutline />
@@ -69,6 +73,16 @@ const EditProfile = () => {
 					bgColor='#433434'
 				/>
 			</Form>
+			{/* modal */}
+			<Modal
+				show={modalShow}
+				onHide={() => setModalShow(false)}
+				size='lg'
+				aria-labelledby='contained-modal-title-vcenter'
+				centered
+			>
+				<Image src={map} />
+			</Modal>
 		</Container>
 	);
 };

@@ -17,6 +17,7 @@ export const GlobalButton = ({
 				bgColor && {
 					backgroundColor: bgColor,
 					color: textColor,
+					border: 'none'
 				}
 			}
 			onClick={onClick}

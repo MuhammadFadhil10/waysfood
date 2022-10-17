@@ -23,7 +23,6 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const PrivateRoute = ({ element: Component, ...rest }) => {
 	const { isLogin, setIsLogin } = useContext(LoginContext);
-	// const {is}
 
 	return isLogin ? <Outlet /> : <Navigate to='/' />;
 };

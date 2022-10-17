@@ -5,9 +5,6 @@ import { PopularList } from './components/PopularList';
 import { NearRestaurantList } from './components/NearRestaurantList';
 
 function App() {
-	'';
-	const cart = localStorage.getItem('cart');
-	console.log(JSON.parse(cart));
 	return (
 		<Container fluid className='p-0 vh-100'>
 			<Banner />

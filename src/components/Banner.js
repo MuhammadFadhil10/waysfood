@@ -4,11 +4,10 @@ import pizzaImage from '../assets/image/pizza.png';
 export const Banner = () => {
 	return (
 		<Container
-			className='d-flex justify-content-center align-items-center h-100 shadow gap-3'
+			className='d-flex flex-lg-row justify-content-center align-items-center h-100 shadow gap-3'
 			style={{ backgroundColor: '#FFC700' }}
 			fluid
 		>
-			{/* <div className='mb-5 d-flex h-100 gap-5 align-items-start'> */}
 			<div className='banner-left d-flex flex-column gap-4'>
 				<h1 style={{ color: '#433434' }}>
 					Are you hungry? <br /> Express Home Delivery
@@ -37,7 +36,7 @@ export const Banner = () => {
 					</div>
 				</div>
 			</div>
-			<Image src={pizzaImage}></Image>
+				<Image src={pizzaImage}></Image>
 		</Container>
 	);
 };
