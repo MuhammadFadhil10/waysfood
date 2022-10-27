@@ -106,13 +106,10 @@ export const Login = ({
 								);
 								loginCheck.status && setIsLogin(loginCheck.status);
 								setUserRole(loginCheck.user.role);
-								loginCheck.status &&
-									setTimeout(() => {
-										setShow(false);
-										setLoginMessage('');
-										loginCheck.user.role === 'admin' &&
-											navigate('/partner/dashboard');
-									}, 1500);
+								loginCheck.status && setShow(false);
+								setLoginMessage('');
+								loginCheck.user.role === 'admin' &&
+									navigate('/partner/dashboard');
 							}}
 						/>
 					</Form>
