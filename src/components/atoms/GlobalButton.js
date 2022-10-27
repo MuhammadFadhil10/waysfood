@@ -1,4 +1,4 @@
-import { Button } from 'react-bootstrap';
+import { Button, Spinner } from 'react-bootstrap';
 
 export const GlobalButton = ({
 	name,
@@ -7,6 +7,7 @@ export const GlobalButton = ({
 	onClick,
 	textColor,
 	icon,
+	isLoading,
 	...rest
 }) => {
 	return (
@@ -17,13 +18,25 @@ export const GlobalButton = ({
 				bgColor && {
 					backgroundColor: bgColor,
 					color: textColor,
-					border: 'none'
+					border: 'none',
 				}
 			}
 			onClick={onClick}
 			{...rest}
 		>
-			{name}
+			{isLoading ? (
+				<>
+					<Spinner
+						as='span'
+						animation='border'
+						role='status'
+						size='sm'
+					></Spinner>
+					<p>Loading...</p>
+				</>
+			) : (
+				name
+			)}
 		</Button>
 	);
 };

@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { FloatingLabel, Form, Container, Modal } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import { FloatingLabel, Form, Container, Modal, Alert } from 'react-bootstrap';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 import { API } from '../../config/api';
@@ -11,6 +11,10 @@ export const Register = ({ show, setShow, setShowLogin }) => {
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
+	const [registResponse, setRegistResponse] = useState(null);
+	const [regisMessage, setRegisMessage] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
+
 	const [regisData, setRegisData] = useState({
 		email: '',
 		password: '',
@@ -21,8 +25,27 @@ export const Register = ({ show, setShow, setShowLogin }) => {
 	});
 
 	const registerHandler = async () => {
-		const response = await API.post('/register', regisData);
-		console.log(response.data);
+		try {
+			setIsLoading(true);
+			const response = await API.post('/register', regisData);
+			setRegistResponse(response.data);
+			setShow(false);
+			setShowLogin(true);
+			setIsLoading(false);
+			setRegisData({
+				...regisData,
+				email: '',
+				password: '',
+				fullname: '',
+				gender: '',
+				phone: '',
+				role: '',
+			});
+			setRegisMessage('');
+		} catch (error) {
+			setRegisMessage(error.response.data.message);
+			setIsLoading(false);
+		}
 	};
 
 	return (
@@ -36,6 +59,11 @@ export const Register = ({ show, setShow, setShowLogin }) => {
 					<h1 style={{ color: '#FFC700' }} className='align-self-start'>
 						Register
 					</h1>
+					{regisMessage != '' && (
+						<Alert variant={regisMessage != '' && 'danger'}>
+							{regisMessage != '' && regisMessage}
+						</Alert>
+					)}
 					<Form className='w-100 d-flex flex-column gap-3'>
 						<div>
 							<GlobalInput
@@ -117,6 +145,7 @@ export const Register = ({ show, setShow, setShowLogin }) => {
 									});
 								}}
 							>
+								<option>Role</option>
 								<option value='user'>As User</option>
 								<option value='partner'>As Partner</option>
 							</Form.Select>
@@ -124,9 +153,9 @@ export const Register = ({ show, setShow, setShowLogin }) => {
 						<GlobalButton
 							name='Register'
 							bgColor='#433434'
+							isLoading={isLoading}
 							onClick={() => {
 								// write code above
-								setShow(false);
 								registerHandler();
 							}}
 						/>
