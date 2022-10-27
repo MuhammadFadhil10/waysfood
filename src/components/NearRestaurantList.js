@@ -13,6 +13,7 @@ export const NearRestaurantList = () => {
 	const { isLogin, setIsLogin } = useContext(LoginContext);
 	const [showLoginModal, setShowLoginModal] = useState(false);
 	const [showRegisterModal, setShowRegisterModal] = useState(false);
+	const [userRole, setUserRole] = useState('');
 
 	useEffect(() => {
 		AOS.init();
@@ -49,6 +50,7 @@ export const NearRestaurantList = () => {
 				isLogin={isLogin}
 				setIsLogin={setIsLogin}
 				setShowRegister={setShowRegisterModal}
+				setUserRole={setUserRole}
 			/>
 			<Register
 				show={showRegisterModal}
