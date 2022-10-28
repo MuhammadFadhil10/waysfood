@@ -19,6 +19,8 @@ import ProfilePartner from './pages/admin/ProfilePartner';
 import EditProfilePartner from './pages/admin/EditProfilePartner';
 import AddProduct from './pages/admin/AddProduct';
 import DashboardAdmin from './pages/admin/DashboardAdmin';
+import NotFound from './pages/error/NotFound';
+
 import { setAuthToken } from './config/api';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -100,6 +102,7 @@ function AppRouter() {
 									></Route>
 								</Route>
 							</Route>
+							<Route path='*' element={<NotFound />} />
 						</Routes>
 					</BrowserRouter>
 				</QueryClientProvider>
