@@ -77,7 +77,7 @@ function AppRouter() {
 									<Route exact path='/profile' element={<Profile />}></Route>
 									<Route
 										exact
-										path='/profile/edit'
+										path='/profile/edit/:id'
 										element={<EditProfile />}
 									></Route>
 									{/* partner / admin */}
@@ -89,7 +89,7 @@ function AppRouter() {
 										></Route>
 										<Route
 											exact
-											path='/partner/profile/edit'
+											path='/partner/profile/edit/:id'
 											element={<EditProfilePartner />}
 										></Route>
 										<Route

@@ -53,7 +53,7 @@ const NavProfile = ({ setIsLogin }) => {
 
 					<Dropdown>
 						<Dropdown.Toggle variant='' id='dropdown-basic'>
-							<Image src={userProfile.image} width='45px' height='45px'></Image>
+							<Image src={userProfile?.image} width='45px' height='45px' className='rounded-pill'></Image>
 						</Dropdown.Toggle>
 
 						<Dropdown.Menu>

@@ -27,7 +27,7 @@ const Profile = () => {
 								name='Edit Profile'
 								bgColor='#433434'
 								className='w-100 mt-3 border-0'
-								onClick={() => navigate('/profile/edit')}
+								onClick={() => navigate(`/profile/edit/${userProfile?.id}`)}
 							/>
 						</Col>
 						<Col>
