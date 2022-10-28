@@ -24,9 +24,13 @@ import { setAuthToken } from './config/api';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const PrivateRoute = () => {
-	const { isLogin, setIsLogin } = useContext(LoginContext);
+	const token = localStorage.getItem('token');
+	return token ? <Outlet /> : <Navigate to='/' />;
+};
 
-	return isLogin ? <Outlet /> : <Navigate to='/' />;
+const AdminRoute = () => {
+	const role = localStorage.getItem('role');
+	return role == 'partner' ? <Outlet /> : <Navigate to='/' />;
 };
 
 function AppRouter() {
@@ -34,6 +38,7 @@ function AppRouter() {
 
 	const [isLogin, setIsLogin] = useState(false);
 
+	// keep user login if auth token is still in local storage
 	useEffect(() => {
 		if (token) {
 			setIsLogin(true);
@@ -72,26 +77,28 @@ function AppRouter() {
 									element={<EditProfile />}
 								></Route>
 								{/* partner / admin */}
-								<Route
-									exact
-									path='/partner/profile'
-									element={<ProfilePartner />}
-								></Route>
-								<Route
-									exact
-									path='/partner/profile/edit'
-									element={<EditProfilePartner />}
-								></Route>
-								<Route
-									exact
-									path='/partner/add-product'
-									element={<AddProduct />}
-								></Route>
-								<Route
-									exact
-									path='/partner/dashboard'
-									element={<DashboardAdmin />}
-								></Route>
+								<Route exact path='/' element={<AdminRoute />}>
+									<Route
+										exact
+										path='/partner/profile'
+										element={<ProfilePartner />}
+									></Route>
+									<Route
+										exact
+										path='/partner/profile/edit'
+										element={<EditProfilePartner />}
+									></Route>
+									<Route
+										exact
+										path='/partner/add-product'
+										element={<AddProduct />}
+									></Route>
+									<Route
+										exact
+										path='/partner/dashboard'
+										element={<DashboardAdmin />}
+									></Route>
+								</Route>
 							</Route>
 						</Routes>
 					</BrowserRouter>
