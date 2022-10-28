@@ -22,6 +22,7 @@ import DashboardAdmin from './pages/admin/DashboardAdmin';
 import NotFound from './pages/error/NotFound';
 
 import { setAuthToken } from './config/api';
+import { UserContextProvider } from './contexts/UserContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -54,60 +55,62 @@ function AppRouter() {
 	const [cartData, setCartData] = useState([]);
 	const client = new QueryClient();
 	return (
-		<LoginContext.Provider value={{ isLogin, setIsLogin }}>
-			<CartContext.Provider value={{ cartData, setCartData }}>
-				<QueryClientProvider client={client}>
-					<BrowserRouter>
-						<Navigation />
-						<Routes>
-							<Route exact path='/' element={<App />}></Route>
-							<Route
-								exact
-								path='/menu/list/:restaurant/:id'
-								element={<RestaurantMenus />}
-							></Route>
-							<Route exact path='/' element={<PrivateRoute />}>
+		<QueryClientProvider client={client}>
+			<LoginContext.Provider value={{ isLogin, setIsLogin }}>
+				<UserContextProvider>
+					<CartContext.Provider value={{ cartData, setCartData }}>
+						<BrowserRouter>
+							<Navigation />
+							<Routes>
+								<Route exact path='/' element={<App />}></Route>
 								<Route
 									exact
-									path='/cart/detail/:id'
-									element={<CartOrder />}
+									path='/menu/list/:restaurant/:id'
+									element={<RestaurantMenus />}
 								></Route>
-								<Route exact path='/profile' element={<Profile />}></Route>
-								<Route
-									exact
-									path='/profile/edit'
-									element={<EditProfile />}
-								></Route>
-								{/* partner / admin */}
-								<Route exact path='/' element={<AdminRoute />}>
+								<Route exact path='/' element={<PrivateRoute />}>
 									<Route
 										exact
-										path='/partner/profile'
-										element={<ProfilePartner />}
+										path='/cart/detail/:id'
+										element={<CartOrder />}
 									></Route>
+									<Route exact path='/profile' element={<Profile />}></Route>
 									<Route
 										exact
-										path='/partner/profile/edit'
-										element={<EditProfilePartner />}
+										path='/profile/edit'
+										element={<EditProfile />}
 									></Route>
-									<Route
-										exact
-										path='/partner/add-product'
-										element={<AddProduct />}
-									></Route>
-									<Route
-										exact
-										path='/partner/dashboard'
-										element={<DashboardAdmin />}
-									></Route>
+									{/* partner / admin */}
+									<Route exact path='/' element={<AdminRoute />}>
+										<Route
+											exact
+											path='/partner/profile'
+											element={<ProfilePartner />}
+										></Route>
+										<Route
+											exact
+											path='/partner/profile/edit'
+											element={<EditProfilePartner />}
+										></Route>
+										<Route
+											exact
+											path='/partner/add-product'
+											element={<AddProduct />}
+										></Route>
+										<Route
+											exact
+											path='/partner/dashboard'
+											element={<DashboardAdmin />}
+										></Route>
+									</Route>
 								</Route>
-							</Route>
-							<Route path='*' element={<NotFound />} />
-						</Routes>
-					</BrowserRouter>
-				</QueryClientProvider>
-			</CartContext.Provider>
-		</LoginContext.Provider>
+								<Route path='*' element={<NotFound />} />
+							</Routes>
+						</BrowserRouter>
+					</CartContext.Provider>
+				</UserContextProvider>
+			</LoginContext.Provider>
+		</QueryClientProvider>
 	);
 }
 

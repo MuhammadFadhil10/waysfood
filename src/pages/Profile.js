@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { Card, Col, Container, Image, Row, Alert } from 'react-bootstrap';
 import { GlobalButton } from '../components/atoms/GlobalButton';
 import { useNavigate } from 'react-router-dom';
@@ -6,10 +6,15 @@ import { useNavigate } from 'react-router-dom';
 import profilePhoto from '../assets/image/zayn.png';
 
 import logo from '../assets/icon/brand.svg';
+import { useQuery } from 'react-query';
+import { API } from '../config/api';
+import { UserContext } from '../contexts/UserContext';
 
 const Profile = () => {
 	const navigate = useNavigate();
-	
+
+	const userProfile = useContext(UserContext);
+
 	return (
 		<Container className='mt-5'>
 			<Row>
@@ -17,7 +22,7 @@ const Profile = () => {
 					<h1 className='fs-3 mb-5'>My Profile</h1>
 					<Row className='d-flex justify-content-star'>
 						<Col className='col-5 col-lg-4'>
-							<Image src={profilePhoto} />
+							<Image src={userProfile?.image} width='100%' />
 							<GlobalButton
 								name='Edit Profile'
 								bgColor='#433434'
@@ -28,15 +33,15 @@ const Profile = () => {
 						<Col>
 							<div>
 								<h1 className='fs-5'>Full Name</h1>
-								<p>Andi</p>
+								<p>{userProfile?.fullName}</p>
 							</div>
 							<div>
 								<h1 className='fs-5'>Email</h1>
-								<p>andigans@gmail.com</p>
+								<p>{userProfile?.email}</p>
 							</div>
 							<div>
 								<h1 className='fs-5'>Phone</h1>
-								<p>083896833122</p>
+								<p>{userProfile?.phone}</p>
 							</div>
 						</Col>
 					</Row>
@@ -72,7 +77,6 @@ const Profile = () => {
 					</div>
 				</Col>
 			</Row>
-			
 		</Container>
 	);
 };

@@ -8,10 +8,11 @@ import { Login } from './auth/Login';
 import { Register } from './auth/Register';
 import { CartContext } from '../contexts/CartContext';
 import NavProfile from './atoms/NavProfile';
-import { LoginContext, UserContext } from '../contexts/LoginContext';
+import { LoginContext } from '../contexts/LoginContext';
 
 export const Navigation = () => {
 	const navigate = useNavigate();
+	
 	const { isLogin, setIsLogin } = useContext(LoginContext);
 	const [userRole, setUserRole] = useState('');
 	const [showLogin, setShowLogin] = useState(false);

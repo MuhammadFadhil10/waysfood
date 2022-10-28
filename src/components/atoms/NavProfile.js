@@ -9,9 +9,11 @@ import profileImage from '../../assets/image/profile.png';
 import addProduct from '../../assets/icon/add-product-dropdown.svg';
 import logout from '../../assets/icon/logout-dropdown.svg';
 import profile from '../../assets/icon/profile-dropdown.svg';
+import { UserContext } from '../../contexts/UserContext';
 
 const NavProfile = ({ setIsLogin }) => {
 	const navigate = useNavigate();
+	const userProfile = useContext(UserContext);
 	const { cartData, setCartData } = useContext(CartContext);
 	const role = localStorage.getItem('role');
 
@@ -51,7 +53,7 @@ const NavProfile = ({ setIsLogin }) => {
 
 					<Dropdown>
 						<Dropdown.Toggle variant='' id='dropdown-basic'>
-							<Image src={profileImage} width='45px' height='45px'></Image>
+							<Image src={userProfile.image} width='45px' height='45px'></Image>
 						</Dropdown.Toggle>
 
 						<Dropdown.Menu>
