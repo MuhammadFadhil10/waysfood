@@ -7,7 +7,7 @@ const NotFound = () => {
 	const navigate = useNavigate();
 	return (
 		<Container className='d-flex flex-column align-items-center pt-5' >
-            <h1 className='text-danger' >404</h1>
+            <h1 className='text-danger'>404</h1>
 			<h3>
 				Ooops!, look like the page you've try to find is not in our sites! :({' '}
 			</h3>
