@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from 'react';
 import { Card, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { LoginContext } from '../contexts/LoginContext';
+import { LoginContext, UserContext } from '../contexts/LoginContext';
 import { NearRestaurant } from '../data/NearRestaurant';
 import { Login } from './auth/Login';
 import { Register } from './auth/Register';

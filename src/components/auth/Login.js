@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import { FloatingLabel, Form, Container, Modal, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import { LoginContext } from '../../contexts/LoginContext';
+import { API } from '../../config/api';
+import { LoginContext, UserContext } from '../../contexts/LoginContext';
 import { userData } from '../../data/UserData';
 import { GlobalButton } from '../atoms/GlobalButton';
 import { GlobalInput } from '../atoms/GlobalInput';
@@ -19,35 +20,29 @@ export const Login = ({
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
-	const [userLogin, setUserLogin] = useState({
-		email: '',
-		password: '',
-		role: 'user',
-	});
+	// const { isLogin, setIsLogin } = useContext(LoginContext);
 
 	const [loginMessage, setLoginMessage] = useState('');
+	const [loginResponse, setLoginResponse] = useState(null);
 
-	// function to return if password match, return a error or success message
+	const [loginData, setLoginData] = useState({
+		email: '',
+		password: '',
+	});
 
-	const loginSuccess = (email, password) => {
-		const loginResult = userData.filter(
-			(field) => field.email === email && field.password === password
-		);
-
-		if (loginResult.length === 0) {
-			setLoginMessage('Email or Password Wrong!');
-			return {
-				status: false,
-				message: loginMessage,
-			};
+	const loginHandler = async () => {
+		try {
+			const response = await API.post('/login', loginData);
+			setLoginResponse(response.data);
+			localStorage.setItem('token', response.data.data.token);
+			localStorage.setItem('role', response.data.data.role);
+			setUserRole(response.data.data.role);
+			setIsLogin(true);
+			setShow(false);
+			response.data.data.role == 'partner' && navigate('/partner/dashboard');
+		} catch (error) {
+			setLoginMessage(error.response.data.message);
 		}
-		setLoginMessage('Success Login!');
-
-		return {
-			status: true,
-			message: loginMessage,
-			user: loginResult[0],
-		};
 	};
 
 	return (
@@ -58,11 +53,7 @@ export const Login = ({
 				className=' d-flex flex-column justify-content-center align-items-center'
 			>
 				<Container className='d-flex flex-column gap-4 justify-content-center align-items-center p-5'>
-					{loginMessage != '' && (
-						<Alert variant={!isLogin ? 'danger' : 'success'}>
-							{loginMessage}
-						</Alert>
-					)}
+					{loginMessage != '' && <Alert variant='danger'>{loginMessage}</Alert>}
 					<h1 style={{ color: '#FFC700' }} className='align-self-start'>
 						Login
 					</h1>
@@ -72,18 +63,18 @@ export const Login = ({
 								label='Email'
 								type='email'
 								placeholder='email'
-								value={userLogin.email}
+								value={loginData.email}
 								onChange={(e) =>
-									setUserLogin({ ...userLogin, email: e.target.value })
+									setLoginData({ ...loginData, email: e.target.value })
 								}
 							/>
 							<GlobalInput
 								label='Password'
 								type='password'
 								placeholder='password'
-								value={userData.password}
+								value={loginData.password}
 								onChange={(e) =>
-									setUserLogin({ ...userLogin, password: e.target.value })
+									setLoginData({ ...loginData, password: e.target.value })
 								}
 							/>
 						</div>
@@ -92,24 +83,7 @@ export const Login = ({
 							name='Login'
 							bgColor='#433434'
 							onClick={() => {
-								const loginCheck = loginSuccess(
-									userLogin.email,
-									userLogin.password
-								);
-								localStorage.setItem(
-									'user',
-									JSON.stringify({
-										email: userLogin.email,
-										password: userLogin.password,
-										role: loginCheck.user.role,
-									})
-								);
-								loginCheck.status && setIsLogin(loginCheck.status);
-								setUserRole(loginCheck.user.role);
-								loginCheck.status && setShow(false);
-								setLoginMessage('');
-								loginCheck.user.role === 'admin' &&
-									navigate('/partner/dashboard');
+								loginHandler();
 							}}
 						/>
 					</Form>

@@ -10,9 +10,17 @@ import addProduct from '../../assets/icon/add-product-dropdown.svg';
 import logout from '../../assets/icon/logout-dropdown.svg';
 import profile from '../../assets/icon/profile-dropdown.svg';
 
-const NavProfile = ({ role, setIsLogin }) => {
+const NavProfile = ({ setIsLogin }) => {
 	const navigate = useNavigate();
 	const { cartData, setCartData } = useContext(CartContext);
+	const role = localStorage.getItem('role');
+
+	const logoutHandler = () => {
+		localStorage.removeItem('token');
+		localStorage.removeItem('role');
+		setIsLogin(false);
+	};
+
 	return (
 		<>
 			<div className='d-flex gap-5'>
@@ -59,7 +67,7 @@ const NavProfile = ({ role, setIsLogin }) => {
 									Profile
 								</Link>
 							</Dropdown.Item>
-							{role === 'admin' && (
+							{role === 'partner' && (
 								<Dropdown.Item
 									className='d-flex gap-2 align-items-center border-bottom'
 									style={{ height: '50px' }}
@@ -77,7 +85,7 @@ const NavProfile = ({ role, setIsLogin }) => {
 								className='d-flex gap-2 align-items-center'
 								style={{ height: '50px' }}
 								onClick={() => {
-									setIsLogin(false);
+									logoutHandler();
 									navigate('/');
 								}}
 							>

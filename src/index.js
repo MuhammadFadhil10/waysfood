@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
@@ -19,6 +19,7 @@ import ProfilePartner from './pages/admin/ProfilePartner';
 import EditProfilePartner from './pages/admin/EditProfilePartner';
 import AddProduct from './pages/admin/AddProduct';
 import DashboardAdmin from './pages/admin/DashboardAdmin';
+import { setAuthToken } from './config/api';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -29,7 +30,20 @@ const PrivateRoute = () => {
 };
 
 function AppRouter() {
+	const token = localStorage.getItem('token');
+
 	const [isLogin, setIsLogin] = useState(false);
+
+	useEffect(() => {
+		if (token) {
+			setIsLogin(true);
+			setAuthToken(token);
+		} else {
+			setIsLogin(false);
+		}
+		console.log(token);
+	}, [token]);
+
 	const [cartData, setCartData] = useState([]);
 	const client = new QueryClient();
 	return (
