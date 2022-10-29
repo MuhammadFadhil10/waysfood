@@ -39,7 +39,7 @@ export const PopularList = () => {
 							<Col
 								key={item.id}
 								className='my-3 col-12 col-md-3'
-								style={{ height: '221px', cursor: 'pointer' }}
+								style={{ eight: '221px', cursor: 'pointer' }}
 								onClick={() => {
 									!isLogin
 										? setShowLoginModal(true)
@@ -50,12 +50,13 @@ export const PopularList = () => {
 									width='18 rem'
 									data-aos='fade-up'
 									data-aos-duration='1000'
+									style={{ height: '100px' }}
 								>
 									<Card.Body className='d-flex align-items-center shadow'>
 										<Card.Img
+											className='bg-danger w-25'
 											variant='top'
 											src={item.image}
-											style={{ width: '50px', marginRight: '15px' }}
 										/>
 										<Card.Title>{item.fullName}</Card.Title>
 									</Card.Body>

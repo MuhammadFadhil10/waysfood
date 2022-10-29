@@ -41,7 +41,7 @@ export const NearRestaurantList = () => {
 						onClick={() => {
 							!isLogin
 								? setShowLoginModal(true)
-								: navigate(`/menu/list/${item.fullName}/${item.APIid}`);
+								: navigate(`/menu/list/${item.fullName}/${item.id}`);
 						}}
 						data-aos='fade-up'
 						data-aos-duration='1000'
