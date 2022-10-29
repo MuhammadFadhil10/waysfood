@@ -1,4 +1,11 @@
-import { Container, Form, FloatingLabel, Button, Modal, Image } from 'react-bootstrap';
+import {
+	Container,
+	Form,
+	FloatingLabel,
+	Button,
+	Modal,
+	Image,
+} from 'react-bootstrap';
 import { GlobalButton } from '../components/atoms/GlobalButton';
 import map from '../assets/image/map.png';
 import {
@@ -8,10 +15,14 @@ import {
 	IoTrashOutline,
 	IoAttach,
 } from 'react-icons/io5';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { UserContext } from '../contexts/UserContext';
+import { GlobalInput } from '../components/atoms/GlobalInput';
 
 const EditProfile = () => {
 	const [modalShow, setModalShow] = useState(false);
+	const userProfile = useContext(UserContext);
+
 	return (
 		<Container className='w-75' style={{ marginTop: '90px' }}>
 			<Form>
@@ -29,7 +40,7 @@ const EditProfile = () => {
 						style={{ height: '58px' }}
 					>
 						<label htmlFor='' className=''>
-							<p className='m-0'>Attach Image</p>
+							<GlobalInput type='file' style={{ appearance: 'none' }} />
 						</label>
 						<IoAttach size={30} />
 						<input type='file' hidden />

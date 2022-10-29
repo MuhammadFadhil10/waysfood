@@ -11,11 +11,12 @@ import logout from '../../assets/icon/logout-dropdown.svg';
 import profile from '../../assets/icon/profile-dropdown.svg';
 import { UserContext } from '../../contexts/UserContext';
 
-const NavProfile = ({ setIsLogin }) => {
+const NavProfile = ({ setIsLogin, role }) => {
 	const navigate = useNavigate();
 	const userProfile = useContext(UserContext);
 	const { cartData, setCartData } = useContext(CartContext);
-	const role = localStorage.getItem('role');
+
+	console.log(userProfile);
 
 	const logoutHandler = () => {
 		localStorage.removeItem('token');

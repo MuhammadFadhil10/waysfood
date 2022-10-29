@@ -14,7 +14,6 @@ export const Navigation = () => {
 	const navigate = useNavigate();
 	
 	const { isLogin, setIsLogin } = useContext(LoginContext);
-	const [userRole, setUserRole] = useState('');
 	const [showLogin, setShowLogin] = useState(false);
 	const [showRegister, setShowRegister] = useState(false);
 
@@ -42,7 +41,7 @@ export const Navigation = () => {
 								/>
 							</>
 						) : (
-							<NavProfile setIsLogin={setIsLogin} role={userRole} />
+							<NavProfile setIsLogin={setIsLogin} role={localStorage.role} />
 						)}
 					</div>
 				</Container>
@@ -53,7 +52,6 @@ export const Navigation = () => {
 				isLogin={isLogin}
 				setIsLogin={setIsLogin}
 				setShowRegister={setShowRegister}
-				setUserRole={setUserRole}
 			/>
 			<Register
 				show={showRegister}

@@ -14,7 +14,6 @@ export const Login = ({
 	setShowRegister,
 	isLogin,
 	setIsLogin,
-	setUserRole,
 }) => {
 	const navigate = useNavigate();
 	const handleClose = () => setShow(false);
@@ -34,9 +33,10 @@ export const Login = ({
 		try {
 			const response = await API.post('/login', loginData);
 			setLoginResponse(response.data);
+			console.log(response.data.data);
 			localStorage.setItem('token', response.data.data.token);
 			localStorage.setItem('role', response.data.data.role);
-			setUserRole(response.data.data.role);
+			localStorage.setItem('id',response.data.data.id)
 			setIsLogin(true);
 			setShow(false);
 			response.data.data.role == 'partner' && navigate('/partner/dashboard');

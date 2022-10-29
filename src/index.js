@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Navigation } from './components/Navigation';
-import { LoginContext } from './contexts/LoginContext';
+import { LoginContext, LoginContextProvider } from './contexts/LoginContext';
 import { Outlet, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
@@ -37,20 +37,17 @@ const AdminRoute = () => {
 };
 
 function AppRouter() {
-	const token = localStorage.getItem('token');
-
 	const [isLogin, setIsLogin] = useState(false);
 
 	// keep user login if auth token is still in local storage
 	useEffect(() => {
-		if (token) {
+		if (localStorage.token) {
 			setIsLogin(true);
-			setAuthToken(token);
+			setAuthToken(localStorage.token);
 		} else {
 			setIsLogin(false);
 		}
-		console.log(token);
-	}, [token]);
+	}, [localStorage.token]);
 
 	const [cartData, setCartData] = useState([]);
 	const client = new QueryClient();
