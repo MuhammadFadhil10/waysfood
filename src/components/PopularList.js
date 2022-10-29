@@ -3,10 +3,30 @@ import { Populars } from '../data/Popular';
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
+import { API } from '../config/api';
+import { Login } from './auth/Login';
+import { Register } from './auth/Register';
+import { useNavigate } from 'react-router-dom';
+import { LoginContext } from '../contexts/LoginContext';
 
 export const PopularList = () => {
+	const navigate = useNavigate();
+	const { isLogin, setIsLogin } = useContext(LoginContext);
+	const [showLoginModal, setShowLoginModal] = useState(false);
+	const [showRegisterModal, setShowRegisterModal] = useState(false);
+
+	const { data: popularRestaurant, refetch } = useQuery(
+		'nearRestaurentCache',
+		async () => {
+			const response = await API.get('/users?role=partner');
+			return response.data.data;
+		}
+	);
+
 	useEffect(() => {
+		refetch();
 		AOS.init();
 	}, []);
 
@@ -14,9 +34,18 @@ export const PopularList = () => {
 		<>
 			<div className=' w-100 '>
 				<Row>
-					{Populars.map((item, index) => {
+					{popularRestaurant?.map((item) => {
 						return (
-							<Col key={index} className='my-3 col-12 col-md-3'>
+							<Col
+								key={item.id}
+								className='my-3 col-12 col-md-3'
+								style={{ height: '221px', cursor: 'pointer' }}
+								onClick={() => {
+									!isLogin
+										? setShowLoginModal(true)
+										: navigate(`/menu/list/${item.fullName}/${item.id}`);
+								}}
+							>
 								<Card
 									width='18 rem'
 									data-aos='fade-up'
@@ -28,7 +57,7 @@ export const PopularList = () => {
 											src={item.image}
 											style={{ width: '50px', marginRight: '15px' }}
 										/>
-										<Card.Title>{item.name}</Card.Title>
+										<Card.Title>{item.fullName}</Card.Title>
 									</Card.Body>
 								</Card>
 							</Col>
@@ -36,6 +65,18 @@ export const PopularList = () => {
 					})}
 				</Row>
 			</div>
+			<Login
+				show={showLoginModal}
+				setShow={setShowLoginModal}
+				isLogin={isLogin}
+				setIsLogin={setIsLogin}
+				setShowRegister={setShowRegisterModal}
+			/>
+			<Register
+				show={showRegisterModal}
+				setShow={setShowRegisterModal}
+				setShowLogin={setShowLoginModal}
+			/>
 		</>
 	);
 };
