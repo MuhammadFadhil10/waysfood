@@ -6,17 +6,27 @@ import { API } from '../config/api';
 export const UserContext = createContext();
 
 export const UserContextProvider = ({ children }) => {
-	const { data: userProfile } = useQuery('userProfileCache', async () => {
-		try {
-			const response = await API.get(`/user/${localStorage.id}`);
-			console.log(response.data.data);
-			return response.data.data;
-		} catch (err) {
-			console.log(err);
+	const { data: userProfile, refetch } = useQuery(
+		'userProfileCache',
+		async () => {
+			try {
+				const response = await API.get(`/user/${localStorage.id}`);
+				return response.data.data;
+			} catch (err) {
+				console.log(err);
+				if (err.response.data.message == 'unauthorized') {
+					console.log('kontol');
+					localStorage.removeItem('token');
+					localStorage.removeItem('role');
+					localStorage.removeItem('id');
+				}
+			}
 		}
-	});
+	);
 
 	return (
-		<UserContext.Provider value={userProfile}>{children}</UserContext.Provider>
+		<UserContext.Provider value={{ userProfile, refetch }}>
+			{children}
+		</UserContext.Provider>
 	);
 };

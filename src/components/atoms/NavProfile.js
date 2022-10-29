@@ -1,6 +1,6 @@
 import { Dropdown, Image, Badge } from 'react-bootstrap';
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { CartContext } from '../../contexts/CartContext';
 
@@ -13,16 +13,19 @@ import { UserContext } from '../../contexts/UserContext';
 
 const NavProfile = ({ setIsLogin, role }) => {
 	const navigate = useNavigate();
-	const userProfile = useContext(UserContext);
+	const { userProfile, refetch } = useContext(UserContext);
 	const { cartData, setCartData } = useContext(CartContext);
-
-	console.log(userProfile);
 
 	const logoutHandler = () => {
 		localStorage.removeItem('token');
 		localStorage.removeItem('role');
+		localStorage.removeItem('id');
 		setIsLogin(false);
 	};
+
+	useEffect(() => {
+		refetch();
+	}, []);
 
 	return (
 		<>
@@ -54,7 +57,14 @@ const NavProfile = ({ setIsLogin, role }) => {
 
 					<Dropdown>
 						<Dropdown.Toggle variant='' id='dropdown-basic'>
-							<Image src={userProfile?.image} width='45px' height='45px' className='rounded-pill'></Image>
+							{userProfile && (
+								<Image
+									src={userProfile.image}
+									width='45px'
+									height='45px'
+									className='rounded-pill'
+								></Image>
+							)}
 						</Dropdown.Toggle>
 
 						<Dropdown.Menu>

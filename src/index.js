@@ -82,12 +82,12 @@ function AppRouter() {
 										<Route
 											exact
 											path='/partner/profile'
-											element={<ProfilePartner />}
+											element={<Profile />}
 										></Route>
 										<Route
 											exact
 											path='/partner/profile/edit/:id'
-											element={<EditProfilePartner />}
+											element={<EditProfile />}
 										></Route>
 										<Route
 											exact

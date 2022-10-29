@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card, Col, Container, Image, Row, Alert } from 'react-bootstrap';
 import { GlobalButton } from '../components/atoms/GlobalButton';
 import { useNavigate } from 'react-router-dom';
@@ -13,13 +13,18 @@ import { UserContext } from '../contexts/UserContext';
 const Profile = () => {
 	const navigate = useNavigate();
 
-	const userProfile = useContext(UserContext);
+	const role = localStorage.role
+	const { userProfile, refetch } = useContext(UserContext);
+
+	useEffect(() => {
+		refetch();
+	}, []);
 
 	return (
 		<Container className='mt-5'>
 			<Row>
 				<Col className='col-12 col-lg-6'>
-					<h1 className='fs-3 mb-5'>My Profile</h1>
+					<h1 className='fs-3 mb-5'>{role == "user" ? "My Profile" : "Profile Partner"}</h1>
 					<Row className='d-flex justify-content-star'>
 						<Col className='col-5 col-lg-4'>
 							<Image src={userProfile?.image} width='100%' />
@@ -47,7 +52,7 @@ const Profile = () => {
 					</Row>
 				</Col>
 				<Col className='col-12 col-lg-6'>
-					<p className='fs-3 mb-5'>History Transaction</p>
+					<p className='fs-3 mb-5'>{role == "user" ? "History Transaction" : "History Order"}</p>
 					<div style={{ maxHeight: '300px', overflow: 'scroll' }}>
 						<Card
 							className='shadow d-flex flex-row justify-content-between p-2 mb-3'
