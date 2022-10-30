@@ -23,16 +23,12 @@ const NavProfile = ({ setIsLogin, role }) => {
 		async () => {
 			try {
 				const response = await API.get('/carts');
-				console.log(response.data.data);
 				return response.data.data;
 			} catch (error) {
 				console.log(error);
 			}
 		}
 	);
-	// useEffect(() => {
-	// 	getCartLength();
-	// }, [cartData]);
 
 	const logoutHandler = () => {
 		localStorage.removeItem('token');
@@ -61,14 +57,14 @@ const NavProfile = ({ setIsLogin, role }) => {
 								height='40px'
 								onClick={() => navigate('/cart/detail')}
 							></Image>
-							{cartLength > 0 && (
+							{cartData?.length > 0 && (
 								<Badge
 									bg='danger'
 									pill
 									style={{ height: '25px', width: '25px' }}
 									className='d-flex align-items-center justify-content-center fs-6 position-absolute ms-4'
 								>
-									{cartLength}
+									{cartData?.length}
 								</Badge>
 							)}
 						</>
