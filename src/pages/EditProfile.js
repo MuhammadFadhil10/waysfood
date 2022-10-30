@@ -21,14 +21,26 @@ import { GlobalInput } from '../components/atoms/GlobalInput';
 import { useQuery } from 'react-query';
 import { API } from '../config/api';
 import { useNavigate } from 'react-router-dom';
-import { MapContainer, Marker, TileLayer } from 'react-leaflet';
+import {
+	MapContainer,
+	Marker,
+	Popup,
+	TileLayer,
+	useMapEvents,
+} from 'react-leaflet';
+import L from 'leaflet';
 
 const EditProfile = () => {
 	const navigate = useNavigate();
 	const [modalShow, setModalShow] = useState(false);
 	const { userProfile, refetch } = useContext(UserContext);
-
 	const [userLocation, setUserLocation] = useState(null);
+	const markerIcon = L.icon({
+		iconUrl: 'https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png',
+		// iconSize: [100, 100],
+	});
+
+	L.Marker.prototype.options.icon = markerIcon;
 
 	const formData = new FormData();
 
@@ -186,29 +198,26 @@ const EditProfile = () => {
 				{/* <Image src={map} /> */}
 				{userLocation && (
 					<MapContainer
-						// style={{
-						// 	height: '100%',
-						// 	width: '100%',
-						// 	overflow: 'hidden',
-						// 	zIndex: '999',
-						// 	backgroundColor: 'red',
-						// }}
-						zoom={40}
 						center={{
 							lat: userLocation?.coords?.latitude,
 							lng: userLocation?.coords?.longitude,
 						}}
+						zoom={13}
 					>
 						<TileLayer
-							url='https://api.maptiler.com/maps/outdoor/256/{z}/{x}/{y}.png?key=W1q6SKBdT4T5BH2qacd4'
-							attribution='<a href="https://www.maptiler.com/copyright/" target="_blank"> MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank"> OpenStreetMap contributors</a>'
+							attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+							url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 						/>
 						<Marker
 							position={{
 								lat: userLocation?.coords?.latitude,
 								lng: userLocation?.coords?.longitude,
 							}}
-						></Marker>
+						>
+							<Popup>
+								A pretty CSS3 popup. <br /> Easily customizable.
+							</Popup>
+						</Marker>
 					</MapContainer>
 				)}
 			</Modal>
