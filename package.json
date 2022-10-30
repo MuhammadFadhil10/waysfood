@@ -10,6 +10,7 @@
     "axios": "^1.1.3",
     "bootstrap": "^5.2.2",
     "leaflet": "^1.9.2",
+    "leaflet-control-geocoder": "^2.4.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
     "react-dom": "^18.2.0",

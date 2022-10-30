@@ -29,12 +29,16 @@ import {
 	useMapEvents,
 } from 'react-leaflet';
 import L from 'leaflet';
+// import 'https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css';
+import 'https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js';
+import Geocoder from '../components/Geocoder';
 
 const EditProfile = () => {
 	const navigate = useNavigate();
 	const [modalShow, setModalShow] = useState(false);
 	const { userProfile, refetch } = useContext(UserContext);
 	const [userLocation, setUserLocation] = useState(null);
+
 	const markerIcon = L.icon({
 		iconUrl: 'https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png',
 		// iconSize: [100, 100],
@@ -208,7 +212,8 @@ const EditProfile = () => {
 							attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 							url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 						/>
-						<Marker
+						<Geocoder />
+						{/* <Marker
 							position={{
 								lat: userLocation?.coords?.latitude,
 								lng: userLocation?.coords?.longitude,
@@ -217,7 +222,7 @@ const EditProfile = () => {
 							<Popup>
 								A pretty CSS3 popup. <br /> Easily customizable.
 							</Popup>
-						</Marker>
+						</Marker> */}
 					</MapContainer>
 				)}
 			</Modal>
