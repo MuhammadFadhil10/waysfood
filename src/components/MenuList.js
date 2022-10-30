@@ -11,11 +11,26 @@ const MenuList = () => {
 	const { cartData, setCartData } = useContext(CartContext);
 	const partnerId = useParams().id;
 
+	const { cartLength, setCartLength } = useContext(CartContext);
+
 	// fetch menu by partner clicked
 	const { data: menu } = useQuery('menuCache', async () => {
 		const response = await API.get(`/products/${partnerId}`);
 		return response.data.data;
 	});
+
+	// add to cart
+	const addToCartHandler = async (productId, productPrice) => {
+		try {
+			const response = await API.post(`/cart/add/${productId}`, {
+				price: productPrice,
+			});
+			const getCart = await API.get('/carts');
+			setCartLength(getCart.data.data.length);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	return (
 		<>
@@ -29,26 +44,14 @@ const MenuList = () => {
 						<Card.Body className='d-flex flex-column justify-content-between h-100 '>
 							<div className=' h-50'>
 								<Image src={item.image} width='100%' height='100%' />
-								<h1 className='fs-6'>{item.menuName}</h1>
+								<h1 className='fs-6'>{item.title}</h1>
 								<p className='align-self-start'>Rp {item.price}</p>
 							</div>
 							<GlobalButton
 								name='Add To Cart'
 								bgColor='#FFC700'
 								textColor='#433434'
-								onClick={() => {
-									setCartData([
-										...cartData,
-										{
-											menuName: item.menuName,
-											price: item.price,
-											image: item.image,
-											qty: 1,
-										},
-									]);
-
-									localStorage.setItem('cart', JSON.stringify(cartData));
-								}}
+								onClick={() => addToCartHandler(item.id, item.price)}
 							/>
 						</Card.Body>
 					</Card>

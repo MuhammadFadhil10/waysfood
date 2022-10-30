@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
 	Button,
 	Card,
@@ -20,15 +20,58 @@ import {
 } from 'react-icons/io5';
 
 import emptyCartImage from '../assets/image/cart-empty.png';
+import { useQuery } from 'react-query';
+import { API } from '../config/api';
 import { CartContext } from '../contexts/CartContext';
-// import { cartData } from '../data/CartData';
 
 const CartOrder = () => {
 	const [modalShow, setModalShow] = useState(false);
-	const { cartData, setCartData } = useContext(CartContext);
+	const { cartLength, setCartLength } = useContext(CartContext);
 
-	const [totalPrice, setTotalPrice] = useState(0);
-	const [totalQty, setTotalQty] = useState(0);
+	// add to cart
+	const addToCartHandler = async (productId, productPrice) => {
+		try {
+			const response = await API.post(`/cart/add/${productId}`, {
+				price: productPrice,
+			});
+			refetch();
+			const getCart = await API.get('/carts');
+			setCartLength(getCart.data.data.length);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const deleteCartHandler = async (productId) => {
+		try {
+			const response = await API.patch(`/cart/update/${productId}`);
+			if (response.data.data.qty === 0) {
+				const response = await API.delete(`/cart/delete/${productId}`);
+				setCartLength((prev) => prev - 1);
+			}
+			refetch();
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const { data: cartData, refetch } = useQuery('cartCache', async () => {
+		try {
+			const response = await API.get('/carts');
+			return response.data.data;
+		} catch (error) {
+			console.log(error);
+		}
+	});
+
+	// calculate
+	const allCartPrice = cartData?.map((item) => item.product.price * item.qty);
+	const subTotal = allCartPrice?.reduce((a, b) => a + b, 0);
+	console.log(subTotal);
+
+	useEffect(() => {
+		refetch();
+	}, []);
 
 	return (
 		<Container className=' d-flex flex-column gap-3 pt-5'>
@@ -55,20 +98,20 @@ const CartOrder = () => {
 			<hr />
 			<Row>
 				<Col>
-					{cartData.length === 0 ? (
+					{cartData?.length === 0 ? (
 						<Col className='d-flex flex-column justify-content-center align-items-center'>
 							<Image src={emptyCartImage} width='200px' />
 							<h1>Oooops!!, You have no cart!! :( </h1>
 						</Col>
 					) : (
-						cartData.map((item, index) => (
+						cartData?.map((item) => (
 							<Col>
 								<Row className='d-flex align-items-center'>
 									<Col>
 										<Row className='d-flex align-items-center text-start'>
 											<Col className='col-3'>
 												<img
-													src={item.image}
+													src={item.product.image}
 													style={{
 														width: '80px',
 														height: '80px',
@@ -78,13 +121,16 @@ const CartOrder = () => {
 											</Col>
 											<Col className='col-9 ps-5 ps-lg-0'>
 												<h6 className='my-3 ff-abhaya fw-bold'>
-													{item.menuName}
+													{item.product.name}
 												</h6>
 												<h6 className='my-3 ff-avenir'>
 													<GlobalButton
 														name='-'
 														bgColor='#433434'
 														className='m-2'
+														onClick={() => {
+															deleteCartHandler(item.product.id);
+														}}
 													/>
 													<span className='bg-light border-0 rounded text-dark'>
 														{item.qty}
@@ -93,6 +139,12 @@ const CartOrder = () => {
 														name='+'
 														bgColor='#433434'
 														className='m-2'
+														onClick={() => {
+															addToCartHandler(
+																item.product.id,
+																item.product.price
+															);
+														}}
 													/>
 												</h6>
 											</Col>
@@ -101,7 +153,16 @@ const CartOrder = () => {
 									<Col className='col-4 text-start'>
 										<h6 className='text-danger my-3'>{item.price}</h6>
 										<h6 className='text-danger my-3'>
-											<IoTrash />
+											<IoTrash
+												style={{ cursor: 'pointer' }}
+												onClick={async () => {
+													const response = await API.delete(
+														`/cart/delete/${item.product.id}`
+													);
+													refetch();
+													setCartLength((prev) => prev - 1);
+												}}
+											/>
 										</h6>
 									</Col>
 								</Row>
@@ -111,7 +172,7 @@ const CartOrder = () => {
 					)}
 				</Col>
 
-				{cartData.length > 0 && (
+				{cartData?.length > 0 && (
 					<Col className='col-12 col-lg-4'>
 						<Col>
 							<Row className='d-flex align-items-center mt-2'>
@@ -123,9 +184,9 @@ const CartOrder = () => {
 											<h6>Ongkir</h6>
 										</Col>
 										<Col className='ff-abhaya text-end'>
-											<h6>Rp. 60.000</h6>
-											<h6>2</h6>
-											<h6>Rp. 60.000</h6>
+											<h6>Rp. {subTotal}</h6>
+											<h6>{cartLength}</h6>
+											<h6>Rp. {10000 * cartLength}</h6>
 										</Col>
 									</Row>
 								</Col>
@@ -141,7 +202,7 @@ const CartOrder = () => {
 											<h6>Total</h6>
 										</Col>
 										<Col className='col-4 text-end ff-avenir'>
-											<h6>Rp. 70.000</h6>
+											<h6>Rp. {subTotal + 10000 * cartLength}</h6>
 										</Col>
 									</Row>
 								</Col>

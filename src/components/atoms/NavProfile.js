@@ -10,11 +10,29 @@ import addProduct from '../../assets/icon/add-product-dropdown.svg';
 import logout from '../../assets/icon/logout-dropdown.svg';
 import profile from '../../assets/icon/profile-dropdown.svg';
 import { UserContext } from '../../contexts/UserContext';
+import { useQuery } from 'react-query';
+import { API } from '../../config/api';
 
 const NavProfile = ({ setIsLogin, role }) => {
 	const navigate = useNavigate();
 	const { userProfile, refetch } = useContext(UserContext);
-	const { cartData, setCartData } = useContext(CartContext);
+	const { cartLength, setCartLength } = useContext(CartContext);
+
+	const { data: cartData, refetch: getCartLength } = useQuery(
+		'cartCache',
+		async () => {
+			try {
+				const response = await API.get('/carts');
+				console.log(response.data.data);
+				return response.data.data;
+			} catch (error) {
+				console.log(error);
+			}
+		}
+	);
+	// useEffect(() => {
+	// 	getCartLength();
+	// }, [cartData]);
 
 	const logoutHandler = () => {
 		localStorage.removeItem('token');
@@ -24,8 +42,9 @@ const NavProfile = ({ setIsLogin, role }) => {
 	};
 
 	useEffect(() => {
+		getCartLength();
 		refetch();
-	}, []);
+	}, [cartData]);
 
 	return (
 		<>
@@ -40,16 +59,16 @@ const NavProfile = ({ setIsLogin, role }) => {
 								src={cartImage}
 								width='40px'
 								height='40px'
-								onClick={() => navigate('/cart/detail/:id')}
+								onClick={() => navigate('/cart/detail')}
 							></Image>
-							{cartData.length > 0 && (
+							{cartLength > 0 && (
 								<Badge
 									bg='danger'
 									pill
 									style={{ height: '25px', width: '25px' }}
 									className='d-flex align-items-center justify-content-center fs-6 position-absolute ms-4'
 								>
-									{cartData.length}
+									{cartLength}
 								</Badge>
 							)}
 						</>

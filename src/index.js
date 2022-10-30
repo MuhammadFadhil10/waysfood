@@ -49,13 +49,13 @@ function AppRouter() {
 		}
 	}, [localStorage.token]);
 
-	const [cartData, setCartData] = useState([]);
+	const [cartLength, setCartLength] = useState(0);
 	const client = new QueryClient();
 	return (
 		<QueryClientProvider client={client}>
 			<LoginContext.Provider value={{ isLogin, setIsLogin }}>
 				<UserContextProvider>
-					<CartContext.Provider value={{ cartData, setCartData }}>
+					<CartContext.Provider value={{ cartLength, setCartLength }}>
 						<BrowserRouter>
 							<Navigation />
 							<Routes>
@@ -68,7 +68,7 @@ function AppRouter() {
 								<Route exact path='/' element={<PrivateRoute />}>
 									<Route
 										exact
-										path='/cart/detail/:id'
+										path='/cart/detail'
 										element={<CartOrder />}
 									></Route>
 									<Route exact path='/profile' element={<Profile />}></Route>
