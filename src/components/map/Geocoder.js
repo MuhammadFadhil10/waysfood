@@ -6,13 +6,14 @@ import { useMap } from 'react-leaflet';
 const Geocoder = ({ form, setForm, userDefaultLocation }) => {
 	const map = useMap();
 	// show marker user location when user open map
-	userDefaultLocation && L.marker({
-		lat: userDefaultLocation.split(',')[0],
-		lng: userDefaultLocation.split(',')[1],
-	})
-		.addTo(map)
-		.bindPopup('hahaha')
-		.openPopup();
+	userDefaultLocation &&
+		L.marker({
+			lat: userDefaultLocation.split(',')[0],
+			lng: userDefaultLocation.split(',')[1],
+		})
+			.addTo(map)
+			.bindPopup('hahaha')
+			.openPopup();
 	// event click on map
 	map.on('click', (e) => {
 		setForm({ ...form, location: `${e.latlng.lat},${e.latlng.lng}` });

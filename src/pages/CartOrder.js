@@ -25,10 +25,13 @@ import { API } from '../config/api';
 import { CartContext } from '../contexts/CartContext';
 
 import convertRupiah from 'rupiah-format';
+import Map from '../components/map/Map';
+import { UserContext } from '../contexts/UserContext';
 
 const CartOrder = () => {
 	const [modalShow, setModalShow] = useState(false);
 	const { cartLength, setCartLength } = useContext(CartContext);
+	const { userProfile } = useContext(UserContext);
 
 	// add to cart
 	const addToCartHandler = async (productId, productPrice) => {
@@ -60,6 +63,7 @@ const CartOrder = () => {
 	const { data: cartData, refetch } = useQuery('cartCache', async () => {
 		try {
 			const response = await API.get('/carts');
+			// console.log(response.data.data);
 			return response.data.data;
 		} catch (error) {
 			console.log(error);
@@ -70,10 +74,6 @@ const CartOrder = () => {
 	const allCartPrice = cartData?.map((item) => item.product.price * item.qty);
 	const subTotal = allCartPrice?.reduce((a, b) => a + b, 0);
 
-	useEffect(() => {
-		refetch();
-	}, []);
-
 	const orderHandler = async () => {
 		const response = await API.post('/transaction', {
 			status: 'success',
@@ -82,6 +82,11 @@ const CartOrder = () => {
 
 		console.log(response.data.data);
 	};
+
+	useEffect(() => {
+		// cartData && console.log(cartData[0]?.product?.user?.location);
+		refetch();
+	}, []);
 
 	return (
 		<Container className=' d-flex flex-column gap-3 pt-5'>
@@ -241,7 +246,11 @@ const CartOrder = () => {
 				aria-labelledby='contained-modal-title-vcenter'
 				centered
 			>
-				<Image src={map} />
+				<Map
+					routing={true}
+					userProfile={userProfile}
+					partnerLocation={cartData && cartData[0]?.product?.user?.location}
+				/>
 			</Modal>
 		</Container>
 	);

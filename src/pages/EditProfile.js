@@ -23,9 +23,10 @@ import {
 	useMapEvents,
 } from 'react-leaflet';
 import L from 'leaflet';
-import 'https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js';
-import Geocoder from '../components/Geocoder';
-import GeoRouting from '../components/GeoRouting';
+
+import Geocoder from '../components/map/Geocoder';
+import GeoRouting from '../components/map/GeoRouting';
+import Map from '../components/map/Map';
 
 const EditProfile = () => {
 	const navigate = useNavigate();
@@ -191,40 +192,12 @@ const EditProfile = () => {
 				centered
 				style={{ overflow: 'hidden' }}
 			>
-				{/* <Image src={map} /> */}(
-				<MapContainer
-					center={{
-						lat: userProfile?.location
-							? userProfile?.location.split(',')[0]
-							: -6.175602,
-						lng: userProfile?.location
-							? userProfile?.location.split(',')[1]
-							: 106.827214,
-					}}
-					zoom={13}
-				>
-					<TileLayer
-						attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-						url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-					/>
-					{/* <GeoRouting defaultLocation={userLocation} /> */}
-					<Geocoder
-						form={form}
-						setForm={setForm}
-						userDefaultLocation={userProfile && userProfile.location}
-					/>
-					{/* <Marker
-							position={{
-								lat: userLocation?.coords?.latitude,
-								lng: userLocation?.coords?.longitude,
-							}}
-						>
-							<Popup>
-								A pretty CSS3 popup. <br /> Easily customizable.
-							</Popup>
-						</Marker> */}
-				</MapContainer>
-				)
+				<Map
+					routing={false}
+					userProfile={userProfile}
+					form={form}
+					setForm={setForm}
+				/>
 			</Modal>
 		</Container>
 	);
