@@ -8,7 +8,6 @@ import { API } from '../config/api';
 import { useParams } from 'react-router-dom';
 
 const MenuList = () => {
-	const { cartData, setCartData } = useContext(CartContext);
 	const partnerId = useParams().id;
 
 	const { cartLength, setCartLength } = useContext(CartContext);

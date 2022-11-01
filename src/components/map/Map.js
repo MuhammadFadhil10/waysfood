@@ -3,8 +3,15 @@ import { MapContainer, TileLayer } from 'react-leaflet';
 import Geocoder from './Geocoder';
 import 'https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js';
 import GeoRouting from './GeoRouting';
+import L from 'leaflet';
 
 const Map = ({ routing, userProfile, form, setForm, partnerLocation }) => {
+	const markerIcon = L.icon({
+		iconUrl: 'http://localhost:8000/uploads/placeholder.png',
+		iconSize: [30, 30],
+	});
+
+	L.Marker.prototype.options.icon = markerIcon;
 	return (
 		<MapContainer
 			center={{

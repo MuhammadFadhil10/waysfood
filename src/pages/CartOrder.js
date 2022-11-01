@@ -27,7 +27,7 @@ import { CartContext } from '../contexts/CartContext';
 import convertRupiah from 'rupiah-format';
 import Map from '../components/map/Map';
 import { UserContext } from '../contexts/UserContext';
-
+import L from 'leaflet';
 const CartOrder = () => {
 	const [modalShow, setModalShow] = useState(false);
 	const { cartLength, setCartLength } = useContext(CartContext);
@@ -79,12 +79,9 @@ const CartOrder = () => {
 			status: 'success',
 			qty: 20,
 		});
-
-		console.log(response.data.data);
 	};
 
 	useEffect(() => {
-		// cartData && console.log(cartData[0]?.product?.user?.location);
 		refetch();
 	}, []);
 

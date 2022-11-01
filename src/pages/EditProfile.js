@@ -34,12 +34,6 @@ const EditProfile = () => {
 	const { userProfile, refetch } = useContext(UserContext);
 	const [isLoading, setIsLoading] = useState(false);
 
-	const markerIcon = L.icon({
-		iconUrl: 'https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png',
-	});
-
-	L.Marker.prototype.options.icon = markerIcon;
-
 	const formData = new FormData();
 
 	const [form, setForm] = useState({

@@ -11,10 +11,11 @@ const GeoRouting = ({ partnerLocation }) => {
 	const { userProfile, refetch } = useContext(UserContext);
 
 	const defaultMarker = [-6.408596, 106.764748];
-
 	useEffect(() => {
 		// map.on('click', (e) => {
+
 		L.Routing.control({
+
 			waypoints: [
 				L.latLng(
 					userProfile?.location.split(',')[0],

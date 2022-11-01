@@ -17,8 +17,7 @@ const Geocoder = ({ form, setForm, userDefaultLocation }) => {
 	// event click on map
 	map.on('click', (e) => {
 		setForm({ ...form, location: `${e.latlng.lat},${e.latlng.lng}` });
-		console.log(e.latlng);
-		L.marker(e.latlng).addTo(map).bindPopup('hahaha').openPopup();
+		L.marker(e.latlng).addTo(map).bindPopup().openPopup();
 	});
 	// search map control
 	L.Control.geocoder({
