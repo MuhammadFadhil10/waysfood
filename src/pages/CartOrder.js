@@ -24,6 +24,8 @@ import { useQuery } from 'react-query';
 import { API } from '../config/api';
 import { CartContext } from '../contexts/CartContext';
 
+import convertRupiah from 'rupiah-format';
+
 const CartOrder = () => {
 	const [modalShow, setModalShow] = useState(false);
 	const { cartLength, setCartLength } = useContext(CartContext);
@@ -67,11 +69,19 @@ const CartOrder = () => {
 	// calculate
 	const allCartPrice = cartData?.map((item) => item.product.price * item.qty);
 	const subTotal = allCartPrice?.reduce((a, b) => a + b, 0);
-	console.log(subTotal);
 
 	useEffect(() => {
 		refetch();
 	}, []);
+
+	const orderHandler = async () => {
+		const response = await API.post('/transaction', {
+			status: 'success',
+			qty: 20,
+		});
+
+		console.log(response.data.data);
+	};
 
 	return (
 		<Container className=' d-flex flex-column gap-3 pt-5'>
@@ -151,7 +161,9 @@ const CartOrder = () => {
 										</Row>
 									</Col>
 									<Col className='col-4 text-start'>
-										<h6 className='text-danger my-3'>{item.price}</h6>
+										<h6 className='text-danger my-3'>
+											{convertRupiah.convert(item.price)}
+										</h6>
 										<h6 className='text-danger my-3'>
 											<IoTrash
 												style={{ cursor: 'pointer' }}
@@ -184,9 +196,9 @@ const CartOrder = () => {
 											<h6>Ongkir</h6>
 										</Col>
 										<Col className='ff-abhaya text-end'>
-											<h6>Rp. {subTotal}</h6>
+											<h6>{convertRupiah.convert(subTotal)}</h6>
 											<h6>{cartLength}</h6>
-											<h6>Rp. {10000 * cartLength}</h6>
+											<h6>{convertRupiah.convert(10000 * cartLength)}</h6>
 										</Col>
 									</Row>
 								</Col>
@@ -202,7 +214,9 @@ const CartOrder = () => {
 											<h6>Total</h6>
 										</Col>
 										<Col className='col-4 text-end ff-avenir'>
-											<h6>Rp. {subTotal + 10000 * cartLength}</h6>
+											<h6>
+												{convertRupiah.convert(subTotal + 10000 * cartLength)}
+											</h6>
 										</Col>
 									</Row>
 								</Col>
@@ -213,6 +227,13 @@ const CartOrder = () => {
 				{/* </Col> */}
 			</Row>
 			{/* modal */}
+			<Button
+				className='w-25 d-flex gap-3 justify-content-center align-self-end mt-5'
+				style={{ backgroundColor: '#433434', border: 'none' }}
+				onClick={orderHandler}
+			>
+				Order
+			</Button>
 			<Modal
 				show={modalShow}
 				onHide={() => setModalShow(false)}

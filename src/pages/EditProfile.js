@@ -8,13 +8,7 @@ import {
 } from 'react-bootstrap';
 import { GlobalButton } from '../components/atoms/GlobalButton';
 import map from '../assets/image/map.png';
-import {
-	IoLocationSharp,
-	IoMapOutline,
-	IoTrash,
-	IoTrashOutline,
-	IoAttach,
-} from 'react-icons/io5';
+import { IoMapOutline, IoAttach } from 'react-icons/io5';
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../contexts/UserContext';
 import { GlobalInput } from '../components/atoms/GlobalInput';
@@ -29,19 +23,18 @@ import {
 	useMapEvents,
 } from 'react-leaflet';
 import L from 'leaflet';
-// import 'https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css';
 import 'https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js';
 import Geocoder from '../components/Geocoder';
+import GeoRouting from '../components/GeoRouting';
 
 const EditProfile = () => {
 	const navigate = useNavigate();
 	const [modalShow, setModalShow] = useState(false);
 	const { userProfile, refetch } = useContext(UserContext);
-	const [userLocation, setUserLocation] = useState(null);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const markerIcon = L.icon({
 		iconUrl: 'https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png',
-		// iconSize: [100, 100],
 	});
 
 	L.Marker.prototype.options.icon = markerIcon;
@@ -55,6 +48,7 @@ const EditProfile = () => {
 		phone: userProfile?.phone,
 		location: userProfile?.location,
 	});
+	const [preview, setPreview] = useState(form?.image);
 	formData.append('fullname', form.fullName);
 	formData.append('image', form.image);
 	formData.append('email', form.email);
@@ -63,10 +57,14 @@ const EditProfile = () => {
 
 	const editProfileHandler = async () => {
 		try {
+			setIsLoading(true);
 			const response = await API.patch(
 				`user/update/${localStorage.id}`,
 				formData
 			);
+			setIsLoading(false);
+
+			refetch();
 			navigate('/profile');
 		} catch (err) {
 			console.log(err);
@@ -74,10 +72,9 @@ const EditProfile = () => {
 	};
 
 	useEffect(() => {
+		// userProfile && console.log(userProfile);
 		refetch();
 	}, []);
-
-	// navigator.geolocation.getCurrentPosition((position) => console.log(position));
 
 	return (
 		<Container className='w-75' style={{ marginTop: '90px' }}>
@@ -99,23 +96,22 @@ const EditProfile = () => {
 							}}
 						/>
 					</FloatingLabel>
+					<Image src={preview} width='100px' />
 					<div
 						className='w-25 d-flex align-items-center justify-content-between
 						border rounded px-2 bg-white shadow'
 						style={{ height: '58px' }}
 					>
 						<label htmlFor='file-upload' style={{ cursor: 'pointer' }}>
-							<p className='position-absolute mt-2' style={{ zIndex: '9999' }}>
-								Attach Image
-							</p>
+							<p className='position-absolute mt-2'>Attach Image</p>
 							<Form.Control
 								type='file'
 								style={{ opacity: '0', zIndex: '-1' }}
 								id='file-upload'
 								name='image'
 								onChange={(e) => {
-									console.log(e.target.files[0]);
 									setForm({ ...form, image: e.target.files[0] });
+									setPreview(URL.createObjectURL(e.target.files[0]));
 								}}
 							/>
 						</label>
@@ -159,23 +155,18 @@ const EditProfile = () => {
 						label='Location'
 						className='mb-3 w-75 shadow'
 						name='location'
-						value={form.location}
-						onChange={(e) => {
-							setForm({ ...form, location: e.target.value });
-						}}
 					>
-						<Form.Control type='Location' placeholder='Location' />
+						<Form.Control
+							type='Location'
+							placeholder='Location'
+							value={form.location}
+						/>
 					</FloatingLabel>
 					<Button
 						className='w-25 border-0'
 						style={{ height: '58px', backgroundColor: '#433434' }}
 						onClick={() => {
 							setModalShow(true);
-
-							navigator.geolocation.getCurrentPosition((position) => {
-								setUserLocation((prev) => position);
-								console.log(userLocation);
-							});
 						}}
 					>
 						<span>Select On Map </span>
@@ -188,6 +179,7 @@ const EditProfile = () => {
 					className='float-end w-25 border-0'
 					bgColor='#433434'
 					onClick={editProfileHandler}
+					isLoading={isLoading}
 				/>
 			</Form>
 			{/* modal */}
@@ -199,21 +191,29 @@ const EditProfile = () => {
 				centered
 				style={{ overflow: 'hidden' }}
 			>
-				{/* <Image src={map} /> */}
-				{userLocation && (
-					<MapContainer
-						center={{
-							lat: userLocation?.coords?.latitude,
-							lng: userLocation?.coords?.longitude,
-						}}
-						zoom={13}
-					>
-						<TileLayer
-							attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-							url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-						/>
-						<Geocoder />
-						{/* <Marker
+				{/* <Image src={map} /> */}(
+				<MapContainer
+					center={{
+						lat: userProfile?.location
+							? userProfile?.location.split(',')[0]
+							: -6.175602,
+						lng: userProfile?.location
+							? userProfile?.location.split(',')[1]
+							: 106.827214,
+					}}
+					zoom={13}
+				>
+					<TileLayer
+						attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+						url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+					/>
+					{/* <GeoRouting defaultLocation={userLocation} /> */}
+					<Geocoder
+						form={form}
+						setForm={setForm}
+						userDefaultLocation={userProfile && userProfile.location}
+					/>
+					{/* <Marker
 							position={{
 								lat: userLocation?.coords?.latitude,
 								lng: userLocation?.coords?.longitude,
@@ -223,8 +223,8 @@ const EditProfile = () => {
 								A pretty CSS3 popup. <br /> Easily customizable.
 							</Popup>
 						</Marker> */}
-					</MapContainer>
-				)}
+				</MapContainer>
+				)
 			</Modal>
 		</Container>
 	);

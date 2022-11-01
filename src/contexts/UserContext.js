@@ -10,7 +10,9 @@ export const UserContextProvider = ({ children }) => {
 		'userProfileCache',
 		async () => {
 			try {
+				// console.log(isLoading);
 				const response = await API.get(`/user/${localStorage.id}`);
+				// console.log(isLoading);
 				return response.data.data;
 			} catch (err) {
 				console.log(err);

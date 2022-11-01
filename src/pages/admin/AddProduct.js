@@ -46,7 +46,7 @@ const AddProduct = () => {
 		<Container className='w-75' style={{ marginTop: '90px' }}>
 			<Form>
 				<h4 className='mb-4'>Add Product</h4>
-				{message != '' && <Alert variant={'danger'}>{message}</Alert>}
+				{message != '' && <Alert variant={'success'}>{message}</Alert>}
 				<div className='d-flex gap-3'>
 					<FloatingLabel
 						controlId='floatingInput'

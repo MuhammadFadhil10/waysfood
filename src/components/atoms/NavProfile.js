@@ -23,6 +23,7 @@ const NavProfile = ({ setIsLogin, role }) => {
 		async () => {
 			try {
 				const response = await API.get('/carts');
+				setCartLength(response.data.data.length);
 				return response.data.data;
 			} catch (error) {
 				console.log(error);
@@ -57,14 +58,14 @@ const NavProfile = ({ setIsLogin, role }) => {
 								height='40px'
 								onClick={() => navigate('/cart/detail')}
 							></Image>
-							{cartData?.length > 0 && (
+							{cartLength > 0 && (
 								<Badge
 									bg='danger'
 									pill
 									style={{ height: '25px', width: '25px' }}
 									className='d-flex align-items-center justify-content-center fs-6 position-absolute ms-4'
 								>
-									{cartData?.length}
+									{cartLength}
 								</Badge>
 							)}
 						</>

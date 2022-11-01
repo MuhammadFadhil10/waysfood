@@ -1,21 +1,35 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import L from 'leaflet';
 import { useMap } from 'react-leaflet';
 
-const Geocoder = () => {
+const Geocoder = ({ form, setForm, userDefaultLocation }) => {
 	const map = useMap();
-	useEffect(() => {
-		L.Control.geocoder({
-			defaultMarkGeocode: false,
+	// show marker user location when user open map
+	userDefaultLocation && L.marker({
+		lat: userDefaultLocation.split(',')[0],
+		lng: userDefaultLocation.split(',')[1],
+	})
+		.addTo(map)
+		.bindPopup('hahaha')
+		.openPopup();
+	// event click on map
+	map.on('click', (e) => {
+		setForm({ ...form, location: `${e.latlng.lat},${e.latlng.lng}` });
+		console.log(e.latlng);
+		L.marker(e.latlng).addTo(map).bindPopup('hahaha').openPopup();
+	});
+	// search map control
+	L.Control.geocoder({
+		defaultMarkGeocode: false,
+	})
+		.on('markgeocode', function (e) {
+			var latlng = e.geocode.center;
+			setForm({ ...form, location: `${latlng.lat},${latlng.lng}` });
+			L.marker(latlng).addTo(map).bindPopup(e.geocode.name).openPopup();
+			map.fitBounds(e.geocode.bbox);
 		})
-			.on('markgeocode', function (e) {
-				var latlng = e.geocode.center;
-				L.marker(latlng).addTo(map).bindPopup(e.geocode.name).openPopup();
-				map.fitBounds(e.geocode.bbox);
-			})
-			.addTo(map);
-	}, []);
+		.addTo(map);
 	return null;
 };
 

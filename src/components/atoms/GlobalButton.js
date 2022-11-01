@@ -32,7 +32,6 @@ export const GlobalButton = ({
 						role='status'
 						size='sm'
 					></Spinner>
-					<p>Loading...</p>
 				</>
 			) : (
 				name
