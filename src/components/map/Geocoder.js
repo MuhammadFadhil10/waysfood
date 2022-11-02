@@ -28,6 +28,7 @@ const Geocoder = ({ form, setForm, userDefaultLocation }) => {
 			setForm({ ...form, location: `${latlng.lat},${latlng.lng}` });
 			L.marker(latlng).addTo(map).bindPopup(e.geocode.name).openPopup();
 			map.fitBounds(e.geocode.bbox);
+			console.log(e);
 		})
 		.addTo(map);
 	return null;
