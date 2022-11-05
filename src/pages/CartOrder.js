@@ -28,7 +28,29 @@ import convertRupiah from 'rupiah-format';
 import Map from '../components/map/Map';
 import { UserContext } from '../contexts/UserContext';
 import L from 'leaflet';
+import { useNavigate } from 'react-router-dom';
 const CartOrder = () => {
+	const navigate = useNavigate();
+
+	// Config Snap payment page with useEffect
+	useEffect(() => {
+		//change this to the script source you want to load, for example this is snap.js sandbox env
+		const midtransScriptUrl = 'https://app.sandbox.midtrans.com/snap/snap.js';
+		//change this according to your client-key
+		const myMidtransClientKey = 'SB-Mid-client-wsSaBszXnKWMASil';
+
+		let scriptTag = document.createElement('script');
+		scriptTag.src = midtransScriptUrl;
+		// optional if you want to set script attribute
+		// for example snap.js have data-client-key attribute
+		scriptTag.setAttribute('data-client-key', myMidtransClientKey);
+
+		document.body.appendChild(scriptTag);
+		return () => {
+			document.body.removeChild(scriptTag);
+		};
+	}, []);
+
 	const [modalShow, setModalShow] = useState(false);
 	const { cartLength, setCartLength } = useContext(CartContext);
 	const { userProfile } = useContext(UserContext);
@@ -78,14 +100,37 @@ const CartOrder = () => {
 	const subTotal = allCartPrice?.reduce((a, b) => a + b, 0);
 
 	const orderHandler = async () => {
-		console.log(cartData);
-		console.log(cartData[0]?.product.user.id);
 		const response = await API.post('/transaction', {
 			status: 'pending',
 			qty: totalQty,
 			sellerId: cartData[0]?.product.user.id,
+			totalPrice: subTotal,
 		});
-		console.log('response transaction:', response.data);
+
+		// Insert transaction data
+
+		const token = response.data.data.token;
+
+		window.snap.pay(token, {
+			onSuccess: function (result) {
+				/* You may add your own implementation here */
+				console.log(result);
+				navigate('/profile');
+			},
+			onPending: function (result) {
+				/* You may add your own implementation here */
+				console.log(result);
+				navigate('/profile');
+			},
+			onError: function (result) {
+				/* You may add your own implementation here */
+				console.log(result);
+			},
+			onClose: function () {
+				/* You may add your own implementation here */
+				alert('you closed the popup without finishing the payment');
+			},
+		});
 	};
 
 	useEffect(() => {
