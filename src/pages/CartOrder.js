@@ -32,6 +32,7 @@ const CartOrder = () => {
 	const [modalShow, setModalShow] = useState(false);
 	const { cartLength, setCartLength } = useContext(CartContext);
 	const { userProfile } = useContext(UserContext);
+	// const [orderQty, setOrderQty] = useState(0);
 
 	// add to cart
 	const addToCartHandler = async (productId, productPrice) => {
@@ -71,14 +72,20 @@ const CartOrder = () => {
 	});
 
 	// calculate
+	const allQty = cartData?.map((item) => item.qty);
+	const totalQty = allQty?.reduce((a, b) => a + b, 0);
 	const allCartPrice = cartData?.map((item) => item.product.price * item.qty);
 	const subTotal = allCartPrice?.reduce((a, b) => a + b, 0);
 
 	const orderHandler = async () => {
+		console.log(cartData);
+		console.log(cartData[0]?.product.user.id);
 		const response = await API.post('/transaction', {
-			status: 'success',
-			qty: 20,
+			status: 'pending',
+			qty: totalQty,
+			sellerId: cartData[0]?.product.user.id,
 		});
+		console.log('response transaction:', response.data);
 	};
 
 	useEffect(() => {
@@ -199,7 +206,7 @@ const CartOrder = () => {
 										</Col>
 										<Col className='ff-abhaya text-end'>
 											<h6>{convertRupiah.convert(subTotal)}</h6>
-											<h6>{cartLength}</h6>
+											<h6>{totalQty}</h6>
 											<h6>{convertRupiah.convert(10000 * cartLength)}</h6>
 										</Col>
 									</Row>
