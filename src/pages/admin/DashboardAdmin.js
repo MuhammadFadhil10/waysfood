@@ -1,10 +1,23 @@
 import React from 'react';
 import { Button, Container, Table } from 'react-bootstrap';
+import { useQuery } from 'react-query';
 
 import cancel from '../../assets/icon/cancel.svg';
 import success from '../../assets/icon/success.svg';
 
+// import useQuery from 'react-query';
+import { API } from '../../config/api';
+
 function DashboardAdmin() {
+	const { data: adminTransaction, refetch } = useQuery(
+		'adminTransactionCache',
+		async () => {
+			const response = await API.get(`/partner/transaction/${localStorage.id}`);
+			console.log('admin transaction:', response.data.data);
+			return response.data.data;
+		}
+	);
+
 	return (
 		<Container>
 			<h2 className='mt-5'>Income Transaction</h2>
@@ -25,26 +38,38 @@ function DashboardAdmin() {
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>1</td>
-						<td>Sugeng No Pants</td>
-						<td>Cileungsi</td>
-						<td>Pkaket Geprek, Paket ke..</td>
-						<td className='d-flex text-warning justify-content-center'>
-							Waiting Approve
-						</td>
-						<td>
-							<div className='d-flex justify-content-center'>
-								<Button variant='danger' size='sm' className='btn-table1 me-3'>
-									Cancel
-								</Button>
-								<Button variant='success' size='sm' className='btn-table2'>
-									Approve
-								</Button>
-							</div>
-						</td>
-					</tr>
-					<tr>
+					{adminTransaction?.map((transaction) => {
+						return (
+							<tr key={transaction.id}>
+								<td>1</td>
+								<td>{transaction.buyer.fullName}</td>
+								<td>{transaction.buyer.location}</td>
+								<td>
+									{transaction.orderList.map(
+										(order) => `${order.product.name}, `
+									)}
+								</td>
+								<td className='d-flex text-warning justify-content-center'>
+									{transaction.status}
+								</td>
+								<td>
+									<div className='d-flex justify-content-center'>
+										<Button
+											variant='danger'
+											size='sm'
+											className='btn-table1 me-3'
+										>
+											Cancel
+										</Button>
+										<Button variant='success' size='sm' className='btn-table2'>
+											Approve
+										</Button>
+									</div>
+								</td>
+							</tr>
+						);
+					})}
+					{/* <tr>
 						<td>2</td>
 						<td>Sugeng No Pants</td>
 						<td>Cileungsi</td>
@@ -88,7 +113,7 @@ function DashboardAdmin() {
 								<img src={success} />
 							</div>
 						</td>
-					</tr>
+					</tr> */}
 				</tbody>
 			</Table>
 		</Container>
