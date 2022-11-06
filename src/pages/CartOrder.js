@@ -104,7 +104,7 @@ const CartOrder = () => {
 			status: 'pending',
 			qty: totalQty,
 			sellerId: cartData[0]?.product.user.id,
-			totalPrice: subTotal,
+			totalPrice: subTotal + (10000 * cartLength),
 		});
 
 		// Insert transaction data

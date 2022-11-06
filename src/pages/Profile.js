@@ -16,6 +16,15 @@ const Profile = () => {
 	const role = localStorage.role;
 	const { userProfile, refetch } = useContext(UserContext);
 
+	const { data: myTransaction, refetch: refetchTransaction } = useQuery(
+		'myTransactionCache',
+		async () => {
+			const response = await API.get('/my-transaction');
+			console.log(response.data.data);
+			return response.data.data;
+		}
+	);
+
 	useEffect(() => {
 		refetch();
 	}, []);
@@ -58,31 +67,35 @@ const Profile = () => {
 						{role == 'user' ? 'History Transaction' : 'History Order'}
 					</p>
 					<div style={{ maxHeight: '300px', overflow: 'scroll' }}>
-						<Card
-							className='shadow d-flex flex-row justify-content-between p-2 mb-3'
-							style={{ borderBox: 'box-sizing' }}
-						>
-							<div className=' d-flex flex-column justify-content-between '>
-								<div style={{ lineHeight: '10px' }}>
-									<p>Geprek Bensu</p>
-									<p>
-										<strong>Saturday,</strong> 12 March 2021
-									</p>
-								</div>
-								<p className='text-danger'>Total: Rp 45.000</p>
-							</div>
-							<div className='d-flex flex-column align-items-center gap-3 w-25'>
-								<Col>
-									<Image src={logo} />
-								</Col>
-								<Col className='w-100 d-flex align-items-center justify-content-center'>
-									{/* <p className='fs-6 text-success'>Finished</p> */}
-									<Alert variant='success' className='p-1 w-100 text-center'>
-										Finished
-									</Alert>
-								</Col>
-							</div>
-						</Card>
+						{myTransaction?.map((transaction) => {
+							return (
+								<Card
+									className='shadow d-flex flex-row justify-content-between p-2 mb-3'
+									style={{ borderBox: 'box-sizing' }}
+								>
+									<div className=' d-flex flex-column justify-content-between '>
+										<div style={{ lineHeight: '10px' }}>
+											<p>{transaction.seller.fullName}</p>
+										</div>
+										<p className='text-danger'>{transaction.totalPrice}</p>
+									</div>
+									<div className='d-flex flex-column align-items-center gap-3 w-25'>
+										<Col>
+											<Image src={logo} />
+										</Col>
+										<Col className='w-100 d-flex align-items-center justify-content-center'>
+											{/* <p className='fs-6 text-success'>Finished</p> */}
+											<Alert
+												variant='success'
+												className='p-1 w-100 text-center'
+											>
+												{transaction.status}
+											</Alert>
+										</Col>
+									</div>
+								</Card>
+							);
+						})}
 					</div>
 				</Col>
 			</Row>
