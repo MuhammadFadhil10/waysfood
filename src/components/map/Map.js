@@ -1,7 +1,7 @@
 import React from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import Geocoder from './Geocoder';
-import 'https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js';
+// import 'https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js';
 import GeoRouting from './GeoRouting';
 import L from 'leaflet';
 

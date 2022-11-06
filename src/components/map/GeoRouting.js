@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 import L from 'leaflet';
-import 'leaflet-routing-machine';
-import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
+// import 'leaflet-routing-machine';
+// import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import { useMap } from 'react-leaflet';
 import { UserContext } from '../../contexts/UserContext';
 
